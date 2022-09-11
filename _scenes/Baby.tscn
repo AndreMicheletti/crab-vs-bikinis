@@ -13,11 +13,10 @@ position = Vector2( 760, 396 )
 script = ExtResource( 1 )
 
 [node name="Skeleton" type="GDDragonBones" parent="."]
-scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 3 )
 resource = ExtResource( 2 )
 playback/play = true
-playback/curr_animation = "idle"
+playback/curr_animation = "idle_front"
 
 [node name="LeftBoob" type="StaticBody2D" parent="."]
 position = Vector2( -88.4116, -84.3678 )
