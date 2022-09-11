@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/crab/crab_ske.json" type="GDDragonBonesResource" id=1]
 [ext_resource path="res://assets/crab/crab_tex.png" type="Texture" id=2]
 [ext_resource path="res://_scripts/Crab.gd" type="Script" id=3]
 [ext_resource path="res://assets/crab/crab-3.png" type="Texture" id=4]
 [ext_resource path="res://assets/crab/crab-4.png" type="Texture" id=5]
+[ext_resource path="res://assets/crab/crab-5.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "claw_attack"
@@ -71,7 +72,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "claw_attack_fast"
 length = 0.6
 tracks/0/type = "value"
@@ -137,19 +138,48 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 40.8083
 height = 19.478
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=4]
 radius = 3.4955
+
+[sub_resource type="Animation" id=5]
+resource_name = "stunned"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Stars:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Stars:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
 
 [node name="Crab" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 3
 mode = 2
 mass = 0.102041
-linear_damp = 1.0
+linear_damp = 2.0
+angular_damp = 0.0
 script = ExtResource( 3 )
 MOVE_SPEED = 5
 JUMP_FORCE = 100
@@ -184,7 +214,7 @@ position = Vector2( -55.8615, -3.0052 )
 
 [node name="Anim" type="AnimationPlayer" parent="CrabBody/Claws"]
 anims/claw_attack = SubResource( 1 )
-anims/claw_attack_fast = SubResource( 4 )
+anims/claw_attack_fast = SubResource( 2 )
 
 [node name="CrabBones" type="GDDragonBones" parent="CrabBody"]
 texture = ExtResource( 2 )
@@ -194,14 +224,34 @@ playback/curr_animation = "idle"
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 2.62204, -4.12035 )
 rotation = 1.5708
-shape = SubResource( 2 )
+shape = SubResource( 3 )
+
+[node name="Stars" type="Node2D" parent="."]
+visible = false
+position = Vector2( -32.0487, -46.0866 )
+rotation = 6.07374
+
+[node name="crab-5" type="Sprite" parent="Stars"]
+position = Vector2( -20.4705, -9.48663 )
+rotation = 0.785398
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 6 )
+
+[node name="crab-6" type="Sprite" parent="Stars"]
+position = Vector2( 20.7296, 1.88772 )
+rotation = 1.72788
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 6 )
 
 [node name="GroundCheck" type="Area2D" parent="."]
 position = Vector2( 0, 37.195 )
 collision_layer = 0
 
 [node name="Coll" type="CollisionShape2D" parent="GroundCheck"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/stunned = SubResource( 5 )
 
 [connection signal="dragon_anim_complete" from="CrabBody/CrabBones" to="." method="_on_CrabBones_dragon_anim_complete"]
 [connection signal="body_entered" from="GroundCheck" to="." method="_on_GroundCheck_body_entered"]

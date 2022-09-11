@@ -69,7 +69,7 @@ position = Vector2( 1059.96, 204.621 )
 shape = SubResource( 2 )
 
 [node name="ground" type="CollisionShape2D" parent="Level/Collisions"]
-position = Vector2( 506.855, 490.623 )
+position = Vector2( 506.855, 478.024 )
 shape = SubResource( 3 )
 
 [node name="Crab" parent="." instance=ExtResource( 1 )]
