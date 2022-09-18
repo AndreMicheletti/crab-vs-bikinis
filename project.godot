@@ -8,11 +8,31 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "PlayerKine",
+"language": "GDScript",
+"path": "res://_scripts/PlayerKine.gd"
+}, {
+"base": "RigidBody2D",
+"class": "PlayerRigid",
+"language": "GDScript",
+"path": "res://_scripts/PlayerRigid.gd"
+} ]
+_global_script_class_icons={
+"PlayerKine": "",
+"PlayerRigid": ""
+}
+
 [application]
 
 config/name="Crab-vs-Bikini"
 run/main_scene="res://_scenes/Main.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameController="*res://_scripts/GameController.gd"
 
 [display]
 

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/crab/crab_ske.json" type="GDDragonBonesResource" id=1]
 [ext_resource path="res://assets/crab/crab_tex.png" type="Texture" id=2]
-[ext_resource path="res://_scripts/Crab.gd" type="Script" id=3]
+[ext_resource path="res://_scripts/CrabRigid.gd" type="Script" id=3]
 [ext_resource path="res://assets/crab/crab-3.png" type="Texture" id=4]
 [ext_resource path="res://assets/crab/crab-4.png" type="Texture" id=5]
 [ext_resource path="res://assets/crab/crab-5.png" type="Texture" id=6]
@@ -173,16 +173,12 @@ tracks/1/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
-[node name="Crab" type="RigidBody2D"]
+[node name="CrabRigid" type="RigidBody2D"]
 collision_layer = 2
 collision_mask = 3
-mode = 2
-mass = 0.102041
-linear_damp = 2.0
-angular_damp = 0.0
+mode = 3
+mass = 0.1
 script = ExtResource( 3 )
-MOVE_SPEED = 5
-JUMP_FORCE = 100
 
 [node name="CrabBody" type="Node2D" parent="."]
 
@@ -229,7 +225,7 @@ shape = SubResource( 3 )
 [node name="Stars" type="Node2D" parent="."]
 visible = false
 position = Vector2( -32.0487, -46.0866 )
-rotation = 6.07374
+rotation = -0.209445
 
 [node name="crab-5" type="Sprite" parent="Stars"]
 position = Vector2( -20.4705, -9.48663 )

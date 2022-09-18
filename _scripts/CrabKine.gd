@@ -1,7 +1,5 @@
-extends RigidBody2D
+extends PlayerKine
 
-export(int) var MOVE_SPEED = 20
-export(int) var JUMP_FORCE = 300
 export(int) var CLAW_SPEED = 250
 
 onready var body = get_node("CrabBody")
@@ -13,12 +11,10 @@ onready var claw_anim = get_node("CrabBody/Claws/Anim")
 onready var claw_coll = get_node("CrabBody/Claws/Coll")
 onready var skeleton: GDDragonBones = get_node("CrabBody/CrabBones")
 
-var move_vec = Vector2()
 var flip = false
 var attacking = false
 var claw_return = false
 var defending = false
-var jumping = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,25 +33,18 @@ func _process(delta):
 	claw.global_rotation = PI - rot if flip else rot - PI
 	# Turn
 	body.scale = Vector2(-1 if flip else 1, 1)
-	# Jump
-	if Input.is_action_just_pressed("ui_up"):
-		jump()
+	._process(delta)
 
 func _physics_process(delta):
 	_process_claw(delta)
-	if defending or jumping:
-		return
-	# Move
-	move_vec = Vector2(0, 0)
-	if Input.is_action_pressed("ui_left"):
-		move_vec.x -= 1 * MOVE_SPEED
-	if Input.is_action_pressed("ui_right"):
-		move_vec.x += 1 * MOVE_SPEED
-	if (move_vec.x != 0):
+	._physics_process(delta)
+	if (defending):
+		move_vec.x = 0
+	if (moving and not jumping):
 		skeleton.set("playback/curr_animation", "move")
-		apply_impulse(Vector2(0, 0), move_vec)
 	else:
 		skeleton.set("playback/curr_animation", "idle")
+	apply_movement()
 
 func _process_claw(delta):
 	if (not claw_return):
@@ -90,18 +79,7 @@ func process_defending():
 func jump():
 	if (attacking or defending or jumping):
 		return
-	jumping = true
-	linear_damp = 1
-	skeleton.set("playback/curr_animation", "idle")
-	apply_impulse(Vector2(0, 0), Vector2(0, -JUMP_FORCE))
-
-func finish_jump():
-	jumping = false
-	linear_damp = 2
-
-func _on_Control_gui_input(event: InputEventMouseButton):
-	if (event is InputEventMouseButton):
-		attack()
+	.jump()
 
 func attack():
 	if (attacking or defending):
@@ -157,3 +135,11 @@ func _on_GroundCheck_body_entered(body):
 
 func _on_GroundCheck_body_exited(body):
 	jumping = true
+
+func _on_Control_gui_input(event: InputEventMouseButton):
+	if (event is InputEventMouseButton and event.pressed):
+		if (event.button_index == 1):
+			attack()
+		elif (event.button_index == 2):
+			GameController.stop_motion(0.03)
+

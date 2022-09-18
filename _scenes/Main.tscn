@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://_scenes/Crab.tscn" type="PackedScene" id=1]
+[ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/back/sand.png" type="Texture" id=2]
 [ext_resource path="res://assets/back/water.png" type="Texture" id=3]
 [ext_resource path="res://_scenes/Baby.tscn" type="PackedScene" id=4]
@@ -72,9 +72,8 @@ shape = SubResource( 2 )
 position = Vector2( 506.855, 478.024 )
 shape = SubResource( 3 )
 
-[node name="Crab" parent="." instance=ExtResource( 1 )]
-position = Vector2( 668.153, 435.81 )
-gravity_scale = 20.0
+[node name="CrabRigid" parent="." instance=ExtResource( 1 )]
+position = Vector2( 272.615, 497.121 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0
@@ -84,4 +83,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="gui_input" from="Control" to="Crab" method="_on_Control_gui_input"]
+[connection signal="gui_input" from="Control" to="CrabRigid" method="_on_Control_gui_input"]
