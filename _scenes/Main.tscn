@@ -73,7 +73,7 @@ texture = ExtResource( 6 )
 position = Vector2( 227.75, 619.188 )
 texture = ExtResource( 6 )
 
-[node name="Collisions" type="KinematicBody2D" parent="Level"]
+[node name="Collisions" type="StaticBody2D" parent="Level"]
 collision_mask = 3
 
 [node name="table1" type="CollisionShape2D" parent="Level/Collisions"]
@@ -89,7 +89,7 @@ position = Vector2( 506.855, 478.024 )
 shape = SubResource( 3 )
 
 [node name="CrabRigid" parent="." instance=ExtResource( 1 )]
-position = Vector2( 272.615, 497.121 )
+position = Vector2( 861.98, 483.946 )
 
 [node name="Control" type="Control" parent="."]
 anchor_right = 1.0

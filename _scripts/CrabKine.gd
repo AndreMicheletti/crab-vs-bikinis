@@ -26,7 +26,7 @@ func _process(delta):
 	flip = mouse_pos.x > global_position.x
 	process_defending()
 	if attacking or defending:
-		return
+		return 
 	# Look
 	var look_vec = mouse_pos - claw.global_position
 	var rot = atan2(look_vec.y, look_vec.x)
@@ -41,11 +41,11 @@ func _physics_process(delta):
 	if (defending):
 		move_vec.x = 0
 	if (not defending):
-		if (moving and not jumping):
+		if (moving and on_ground):
 			skeleton.set("playback/curr_animation", "move")
 		else:
 			skeleton.set("playback/curr_animation", "idle")
-	apply_movement()
+	apply_movement(delta)
 
 func _process_claw(delta):
 	if (not claw_return):
@@ -55,7 +55,7 @@ func _process_claw(delta):
 	claw.global_position = move
 
 func process_defending():
-	if (jumping):
+	if (not on_ground):
 		return
 	var now_defending = Input.is_action_pressed("ui_down") and not attacking
 	if (not defending and now_defending):
@@ -76,11 +76,6 @@ func process_defending():
 		claw.global_position = claw_pos.global_position
 		claw_tween.stop_all()
 	defending = now_defending
-
-func jump():
-	if (attacking or defending or jumping):
-		return
-	.jump()
 
 func attack():
 	if (attacking or defending):
@@ -130,13 +125,6 @@ func _on_CrabBones_dragon_anim_complete(anim):
 		skeleton.set("playback/speed", 1)
 		skeleton.play(true)
 
-func _on_GroundCheck_body_entered(body):
-	if (jumping):
-		finish_jump()
-
-func _on_GroundCheck_body_exited(body):
-	jumping = true
-
 func _on_Control_gui_input(event: InputEventMouseButton):
 	if (event is InputEventMouseButton and event.pressed):
 		if (event.button_index == 1):
@@ -144,3 +132,8 @@ func _on_Control_gui_input(event: InputEventMouseButton):
 		elif (event.button_index == 2):
 			GameController.stop_frames(8)
 
+func _on_GroundCheck_body_entered(body):
+	._on_GroundCheck_body_entered(body)
+
+func _on_GroundCheck_body_exited(body):
+	._on_GroundCheck_body_exited(body)

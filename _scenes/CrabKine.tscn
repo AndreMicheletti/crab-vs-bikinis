@@ -176,10 +176,12 @@ tracks/1/keys = {
 [node name="CrabKine" type="KinematicBody2D"]
 collision_layer = 2
 collision_mask = 3
+collision/safe_margin = 0.2
 script = ExtResource( 3 )
-MOVE_SPEED = 150
-GRAVITY_FORCE = 24
-JUMP_FORCE = 16
+MOVE_SPEED = 300
+JUMP_SPEED = 600
+GRAVITY_SPEED = 70.0
+JUMP_TIME_LIMIT = 0.5
 
 [node name="CrabBody" type="Node2D" parent="."]
 
@@ -216,6 +218,7 @@ anims/claw_attack_fast = SubResource( 2 )
 [node name="CrabBones" type="GDDragonBones" parent="CrabBody"]
 texture = ExtResource( 2 )
 resource = ExtResource( 1 )
+playback/speed = 2.0
 playback/curr_animation = "idle"
 
 [node name="Collision" type="CollisionShape2D" parent="."]
@@ -227,7 +230,6 @@ shape = SubResource( 3 )
 visible = false
 position = Vector2( -32.0487, -46.0866 )
 rotation = -0.209445
-scale = Vector2( 1, 1 )
 
 [node name="crab-5" type="Sprite" parent="Stars"]
 position = Vector2( -20.4705, -9.48663 )
@@ -242,7 +244,11 @@ scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 6 )
 
 [node name="GroundCheck" type="Area2D" parent="."]
+visible = false
 position = Vector2( 0, 37.195 )
+gravity_vec = Vector2( 0, 0 )
+gravity = 0.0
+linear_damp = 0.0
 collision_layer = 0
 
 [node name="Coll" type="CollisionShape2D" parent="GroundCheck"]
