@@ -13,7 +13,6 @@ onready var skeleton: GDDragonBones = get_node("CrabBody/CrabBones")
 
 var flip = false
 var attacking = false
-var claw_return = false
 var defending = false
 
 # Called when the node enters the scene tree for the first time.
@@ -36,7 +35,6 @@ func _process(delta):
 	._process(delta)
 
 func _physics_process(delta):
-	_process_claw(delta)
 	._physics_process(delta)
 	if (defending):
 		move_vec.x = 0
@@ -46,13 +44,6 @@ func _physics_process(delta):
 		else:
 			skeleton.set("playback/curr_animation", "idle")
 	apply_movement(delta)
-
-func _process_claw(delta):
-	if (not claw_return):
-		return
-	var target = claw_pos.global_position if not defending else global_position
-	var move = claw.global_position.move_toward(target, delta * CLAW_SPEED)
-	claw.global_position = move
 
 func process_defending():
 	if (not on_ground):
@@ -81,7 +72,6 @@ func attack():
 	if (attacking or defending):
 		return
 	attacking = true
-	claw_return = false
 	var origin = claw.global_position
 	var mouse = get_global_mouse_position()
 	var one = origin.direction_to(mouse)
@@ -91,24 +81,23 @@ func attack():
 	skeleton.set("playback/loop", 1)
 	claw_anim.stop(true)
 	claw_anim.play("claw_attack_fast")
-	#claw_tween.interpolate_property(claw, "global_position", claw.global_position, target,
-	#	0.3, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-	#claw_tween.start()
 
 func attack_hit():
 	# Hit collide check 
 	var space_state = get_world_2d().direct_space_state
-	var collisions = space_state.intersect_point(claw_coll.global_position, 32, [], 2)
+	# var collisions = space_state.intersect_point(claw_coll.global_position, 32, [], 4)
+	var query = Physics2DShapeQueryParameters.new()
+	query.set_shape(claw_coll.shape)
+	query.collision_layer = 4
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.transform = claw_coll.global_transform
+	query.motion = move_vec
+	var collisions = space_state.intersect_shape(query)
 	for coll in collisions:
 		if (coll["collider"].has_signal("hit")):
 			coll["collider"].emit_signal("hit")
-	# Claw Return Animation
-	#claw_tween.interpolate_property(claw, "global_position", claw.global_position, claw.global_position,
-	#	0.2, Tween.TRANS_CUBIC, Tween.EASE_IN)
-	#claw_tween.start()
-	#yield(claw_tween, "tween_completed")
-	claw_return = true
-	yield(get_tree().create_timer(0.2), "timeout")
+	yield(get_tree().create_timer(0.1), "timeout")
 	attacking = false
 	skeleton.set("playback/loop", -1)
 
@@ -129,8 +118,6 @@ func _on_Control_gui_input(event: InputEventMouseButton):
 	if (event is InputEventMouseButton and event.pressed):
 		if (event.button_index == 1):
 			attack()
-		elif (event.button_index == 2):
-			GameController.stop_frames(8)
 
 func _on_GroundCheck_body_entered(body):
 	._on_GroundCheck_body_entered(body)

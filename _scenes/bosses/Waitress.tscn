@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://_scripts/Waitress.gd" type="Script" id=1]
+[ext_resource path="res://_scripts/bosses/Waitress.gd" type="Script" id=1]
 [ext_resource path="res://assets/waitress/waitress_ske.json" type="GDDragonBonesResource" id=2]
 [ext_resource path="res://assets/waitress/waitress_tex.png" type="Texture" id=3]
 [ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=4]
@@ -20,8 +20,8 @@ playback/curr_animation = "idle"
 
 [node name="LeftBoob" type="StaticBody2D" parent="."]
 position = Vector2( -112.793, -105.228 )
-collision_layer = 2
-collision_mask = 2
+collision_layer = 4
+collision_mask = 4
 script = ExtResource( 4 )
 
 [node name="Coll" type="CollisionShape2D" parent="LeftBoob"]

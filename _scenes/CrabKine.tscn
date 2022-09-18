@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/crab/crab_ske.json" type="GDDragonBonesResource" id=1]
 [ext_resource path="res://assets/crab/crab_tex.png" type="Texture" id=2]
-[ext_resource path="res://_scripts/CrabKine.gd" type="Script" id=3]
+[ext_resource path="res://_scripts/player/CrabKine.gd" type="Script" id=3]
 [ext_resource path="res://assets/crab/crab-3.png" type="Texture" id=4]
 [ext_resource path="res://assets/crab/crab-4.png" type="Texture" id=5]
 [ext_resource path="res://assets/crab/crab-5.png" type="Texture" id=6]
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 14.2874
 
 [sub_resource type="Animation" id=1]
 resource_name = "claw_attack"
@@ -28,7 +31,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.7 ),
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -32.4758, -12.8804 ), Vector2( -34.7233, -15.5024 ), Vector2( -36.9707, -18.8736 ), Vector2( -34.7233, -15.5024 ), Vector2( -32.4758, -12.8804 ) ]
@@ -40,7 +43,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 0.4, 0.7 ),
+"times": PoolRealArray( 0, 0.3, 0.4, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -40.8872, -2.23308 ), Vector2( -40.6999, 0.201677 ), Vector2( -43.1346, -1.48393 ), Vector2( -40.8872, -2.23308 ) ]
@@ -52,7 +55,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.7 ),
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 60.1161, 36.8195, 11.9751, 65.7894, 60.1161 ]
@@ -64,12 +67,36 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 0.5 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "attack_hit"
 } ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.38964, 1.38964 ), Vector2( 1.38964, 1.38964 ), Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -23, -12 ), Vector2( -9.22699, -12 ), Vector2( -9.22699, -12 ), Vector2( -23, -12 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -130,12 +157,36 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.112965 ),
+"times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "attack_hit"
 } ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -23, -12 ), Vector2( -4.75999, -1.33661 ), Vector2( -4.75999, -1.33661 ), Vector2( -23, -12 ), Vector2( -23, -12 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:scale")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.61364, 1.61364 ), Vector2( 1.61364, 1.61364 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="CapsuleShape2D" id=3]
@@ -177,6 +228,7 @@ tracks/1/keys = {
 collision_layer = 2
 collision_mask = 3
 collision/safe_margin = 0.2
+motion/sync_to_physics = true
 script = ExtResource( 3 )
 MOVE_SPEED = 300
 JUMP_SPEED = 600
@@ -206,8 +258,9 @@ position = Vector2( -32.4758, -12.8804 )
 rotation = 2.1293
 texture = ExtResource( 4 )
 
-[node name="Coll" type="Position2D" parent="CrabBody/Claws"]
-position = Vector2( -55.8615, -3.0052 )
+[node name="Coll" type="CollisionShape2D" parent="CrabBody/Claws"]
+position = Vector2( -48.5615, -9.45936 )
+shape = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="CrabBody/Claws"]
 

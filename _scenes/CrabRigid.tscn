@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/crab/crab_ske.json" type="GDDragonBonesResource" id=1]
 [ext_resource path="res://assets/crab/crab_tex.png" type="Texture" id=2]
-[ext_resource path="res://_scripts/CrabRigid.gd" type="Script" id=3]
+[ext_resource path="res://_scripts/player/CrabRigid.gd" type="Script" id=3]
 [ext_resource path="res://assets/crab/crab-3.png" type="Texture" id=4]
 [ext_resource path="res://assets/crab/crab-4.png" type="Texture" id=5]
 [ext_resource path="res://assets/crab/crab-5.png" type="Texture" id=6]

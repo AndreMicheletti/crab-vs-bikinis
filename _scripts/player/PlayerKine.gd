@@ -24,7 +24,7 @@ func _process(delta):
 func _physics_process(delta):
 	# Move
 	if (not jumping and not on_ground):
-		move_vec.y += GRAVITY_SPEED
+		move_vec.y += GRAVITY_SPEED * Engine.time_scale
 	move_vec = Vector2(0, move_vec.y)
 	if Input.is_action_pressed("ui_left"):
 		move_vec.x -= 1 * MOVE_SPEED
@@ -49,7 +49,9 @@ func _process_jump(delta):
 		else:
 			jumping = false
 	else:
-		jumping = false
+		if jumping:
+			jump_timer = JUMP_TIME_LIMIT
+			jumping = false
 		if on_ground:
 			jump_timer = 0
 

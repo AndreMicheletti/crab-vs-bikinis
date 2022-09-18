@@ -1,0 +1,315 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=1]
+[ext_resource path="res://assets/particles/white/muzzle_03.png" type="Texture" id=2]
+[ext_resource path="res://assets/baby/Baby_tex.png" type="Texture" id=3]
+[ext_resource path="res://assets/particles/white/muzzle_04.png" type="Texture" id=4]
+[ext_resource path="res://assets/particles/white/muzzle_02.png" type="Texture" id=5]
+[ext_resource path="res://assets/baby/Baby_ske.json" type="GDDragonBonesResource" id=6]
+[ext_resource path="res://_scripts/dbones/FollowBone.gd" type="Script" id=7]
+[ext_resource path="res://_scripts/bosses/Baby.gd" type="Script" id=8]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 41.6503
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 1
+
+[sub_resource type="StreamTexture" id=3]
+flags = 4
+load_path = "res://.import/flame_03.png-432ab459e5c7f1829a009fced947f018.stex"
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.667045 ), 0.0, 0.439091, 0, 0, Vector2( 1, 1 ), -0.0584748, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0.434783, 1 )
+colors = PoolColorArray( 0.867188, 0.535747, 0.182922, 1, 0.773438, 0.271369, 0.0513611, 0 )
+
+[sub_resource type="AnimatedTexture" id=6]
+flags = 4
+frames = 3
+fps = 8.0
+frame_0/texture = ExtResource( 5 )
+frame_1/texture = ExtResource( 2 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 4 )
+frame_2/delay_sec = 0.0
+
+[sub_resource type="CanvasItemMaterial" id=7]
+blend_mode = 1
+
+[sub_resource type="StreamTexture" id=8]
+flags = 4
+load_path = "res://.import/flame_03.png-432ab459e5c7f1829a009fced947f018.stex"
+
+[sub_resource type="Curve" id=9]
+_data = [ Vector2( 0, 0.667045 ), 0.0, 0.439091, 0, 0, Vector2( 1, 1 ), -0.0584748, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0.434783, 1 )
+colors = PoolColorArray( 0.867188, 0.535747, 0.182922, 1, 0.773438, 0.271369, 0.0513611, 0 )
+
+[sub_resource type="AnimatedTexture" id=11]
+flags = 4
+frames = 3
+fps = 8.0
+frame_0/texture = ExtResource( 5 )
+frame_1/texture = ExtResource( 2 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 4 )
+frame_2/delay_sec = 0.0
+
+[sub_resource type="Animation" id=12]
+resource_name = "state_normal"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("EyesParticles:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EyesParticles/EyesAdd:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EyesParticles/EyesAdd/Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("EyesParticles/EyesAdd2:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("EyesParticles/EyesAdd2/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "state_terror"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.231373, 0.0862745, 0.0862745, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("EyesParticles:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EyesParticles/EyesAdd:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EyesParticles/EyesAdd/Light2D:enabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("EyesParticles/EyesAdd2:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("EyesParticles/EyesAdd2/Light2D:enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="Baby" type="Node2D"]
+light_mask = 2
+position = Vector2( 760, 396 )
+script = ExtResource( 8 )
+
+[node name="Skeleton" type="GDDragonBones" parent="."]
+light_mask = 2
+texture = ExtResource( 3 )
+resource = ExtResource( 6 )
+playback/play = true
+playback/curr_animation = "idle_front"
+
+[node name="LeftBoob" type="StaticBody2D" parent="."]
+position = Vector2( -15.9661, -133.505 )
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 1 )
+
+[node name="Coll" type="CollisionShape2D" parent="LeftBoob"]
+shape = SubResource( 1 )
+
+[node name="EyesParticles" type="Node2D" parent="."]
+visible = false
+position = Vector2( 10.3943, -292.617 )
+
+[node name="EyesAdd" type="CPUParticles2D" parent="EyesParticles"]
+material = SubResource( 2 )
+position = Vector2( -17.3239, -2.83482 )
+rotation = -0.0144241
+emitting = false
+amount = 40
+lifetime = 0.52
+texture = SubResource( 3 )
+direction = Vector2( -1, -1 )
+spread = 15.0
+gravity = Vector2( 0, -250 )
+initial_velocity = 150.0
+initial_velocity_random = 0.5
+angle = 720.0
+angle_random = 1.0
+scale_amount = 0.1
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
+hue_variation = 0.1
+hue_variation_random = 0.57
+script = ExtResource( 7 )
+skeleton_path = NodePath("../../Skeleton")
+bone_name = "eyes-2"
+follow_rot = true
+
+[node name="Light2D" type="Light2D" parent="EyesParticles/EyesAdd"]
+position = Vector2( -47.9037, -47.6915 )
+rotation = -0.759985
+enabled = false
+texture = SubResource( 6 )
+texture_scale = 0.4
+color = Color( 1, 0.117647, 0, 1 )
+energy = 2.0
+range_layer_max = 1
+range_item_cull_mask = 3
+
+[node name="EyesAdd2" type="CPUParticles2D" parent="EyesParticles"]
+material = SubResource( 7 )
+position = Vector2( 17.324, 2.83482 )
+emitting = false
+amount = 40
+lifetime = 0.52
+texture = SubResource( 8 )
+direction = Vector2( 3, -1 )
+spread = 15.0
+gravity = Vector2( 0, -250 )
+initial_velocity = 150.0
+initial_velocity_random = 0.5
+angle = 720.0
+angle_random = 1.0
+scale_amount = 0.1
+scale_amount_curve = SubResource( 9 )
+color_ramp = SubResource( 10 )
+hue_variation = 0.1
+hue_variation_random = 0.57
+script = ExtResource( 7 )
+skeleton_path = NodePath("../../Skeleton")
+bone_name = "eyes-2"
+follow_rot = true
+
+[node name="Light2D" type="Light2D" parent="EyesParticles/EyesAdd2"]
+position = Vector2( 58.9677, -32.9726 )
+rotation = 1.00552
+enabled = false
+texture = SubResource( 11 )
+texture_scale = 0.4
+color = Color( 1, 0.117647, 0, 1 )
+energy = 2.0
+range_layer_max = 1
+range_item_cull_mask = 3
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/state_normal = SubResource( 12 )
+anims/state_terror = SubResource( 13 )
+
+[connection signal="hit" from="LeftBoob" to="." method="_on_LeftBoob_hit"]
