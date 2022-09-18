@@ -89,13 +89,3 @@ shape = SubResource( 3 )
 
 [node name="Crab" parent="." instance=ExtResource( 1 )]
 position = Vector2( 861.98, 483.946 )
-
-[node name="Control" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[connection signal="gui_input" from="Control" to="Crab" method="_on_Control_gui_input"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://_scripts/bosses/Waitress.gd" type="Script" id=1]
 [ext_resource path="res://assets/waitress/waitress_ske.json" type="GDDragonBonesResource" id=2]
@@ -6,7 +6,27 @@
 [ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 46.2288
+radius = 45.4485
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 45.4485
+
+[sub_resource type="Animation" id=2]
+resource_name = "move"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 760, 396 ), Vector2( 303.86, 396 ), Vector2( 760, 396 ) ]
+}
 
 [node name="Waitress" type="Node2D"]
 position = Vector2( 760, 396 )
@@ -19,7 +39,7 @@ playback/play = true
 playback/curr_animation = "idle"
 
 [node name="LeftBoob" type="StaticBody2D" parent="."]
-position = Vector2( -112.793, -105.228 )
+position = Vector2( -110.123, -105.228 )
 collision_layer = 4
 collision_mask = 4
 script = ExtResource( 4 )
@@ -27,5 +47,25 @@ script = ExtResource( 4 )
 [node name="Coll" type="CollisionShape2D" parent="LeftBoob"]
 position = Vector2( 1.41418, 4.24261 )
 shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RightBoob" type="StaticBody2D" parent="."]
+position = Vector2( -38.042, -123.248 )
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 4 )
+
+[node name="Coll" type="CollisionShape2D" parent="RightBoob"]
+position = Vector2( 1.41418, 4.24261 )
+shape = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/move = SubResource( 2 )
 
 [connection signal="hit" from="LeftBoob" to="." method="_on_LeftBoob_hit"]
+[connection signal="hit" from="RightBoob" to="." method="_on_LeftBoob_hit"]

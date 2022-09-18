@@ -2,18 +2,21 @@ extends PlayerKine
 
 export(int) var CLAW_SPEED = 250
 
-onready var body = get_node("CrabBody")
-onready var claw = get_node("CrabBody/Claws")
-onready var claw_def = get_node("CrabBody/ClawDefend")
-onready var claw_tween = get_node("CrabBody/Claws/Tween")
-onready var claw_pos = get_node("CrabBody/ClawPos")
-onready var claw_anim = get_node("CrabBody/Claws/Anim")
-onready var claw_coll = get_node("CrabBody/Claws/Coll")
-onready var skeleton: GDDragonBones = get_node("CrabBody/CrabBones")
+onready var crab = get_node("Crab")
+onready var body = get_node("Crab/Body")
+onready var body_anim = get_node("Crab/Body/Anim")
+onready var claw = get_node("Crab/Claws")
+onready var claw_def = get_node("Crab/ClawDefend")
+onready var claw_tween = get_node("Crab/Claws/Tween")
+onready var claw_pos = get_node("Crab/ClawPos")
+onready var claw_anim = get_node("Crab/Claws/Anim")
+onready var claw_coll = get_node("Crab/Claws/Coll")
+onready var skeleton: GDDragonBones = get_node("Crab/Body/CrabBones")
 
 var flip = false
 var attacking = false
 var defending = false
+var holding_target = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +24,10 @@ func _ready():
 	skeleton.play(true)
 
 func _process(delta):
+	if (holding_target):
+		_process_holding(delta)
+	if (holding_target):
+		return
 	var mouse_pos = get_global_mouse_position()
 	flip = mouse_pos.x > global_position.x
 	process_defending()
@@ -31,10 +38,23 @@ func _process(delta):
 	var rot = atan2(look_vec.y, look_vec.x)
 	claw.global_rotation = PI - rot if flip else rot - PI
 	# Turn
-	body.scale = Vector2(-1 if flip else 1, 1)
+	crab.scale = Vector2(-1 if flip else 1, 1)
+	# Attack
+	if Input.is_action_just_pressed("attack"):
+		attack()
 	._process(delta)
 
+func _process_jump(delta):
+	if defending:
+		return
+	._process_jump(delta)
+
 func _physics_process(delta):
+	if (holding_target):
+		var hit_body = query_claw_collision()
+		if not hit_body:
+			release_target()
+		return
 	._physics_process(delta)
 	if (defending):
 		move_vec.x = 0
@@ -51,7 +71,7 @@ func process_defending():
 	var now_defending = Input.is_action_pressed("ui_down") and not attacking
 	if (not defending and now_defending):
 		# Start defend
-		claw.global_rotation = PI if flip else 0
+		claw.global_rotation = PI if flip else 0.0
 		claw_tween.interpolate_property(claw, "global_position", claw.global_position, global_position, 
 			0.3, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 		claw_tween.start()
@@ -68,22 +88,35 @@ func process_defending():
 		claw_tween.stop_all()
 	defending = now_defending
 
+func _process_holding(_delta):
+	if (not holding_target):
+		return
+	if Input.is_action_pressed("attack"):
+		global_position = holding_target.global_position
+	else:
+		release_target()
+
 func attack():
 	if (attacking or defending):
 		return
 	attacking = true
-	var origin = claw.global_position
-	var mouse = get_global_mouse_position()
-	var one = origin.direction_to(mouse)
-	var dist = min(origin.distance_to(mouse), 50)
-	var target = origin + (one * dist)
 	skeleton.set("playback/curr_animation", "attack")
 	skeleton.set("playback/loop", 1)
 	claw_anim.stop(true)
 	claw_anim.play("claw_attack_fast")
 
 func attack_hit():
-	# Hit collide check 
+	# Hit collide check
+	var hit_body = query_claw_collision()
+	if (hit_body):
+		hit_body.emit_signal("hit")
+		if Input.is_action_pressed("attack"):
+			hold_target(hit_body)
+	yield(get_tree().create_timer(0.1), "timeout")
+	attacking = false
+	skeleton.set("playback/loop", -1)
+
+func query_claw_collision() -> PhysicsBody2D:
 	var space_state = get_world_2d().direct_space_state
 	# var collisions = space_state.intersect_point(claw_coll.global_position, 32, [], 4)
 	var query = Physics2DShapeQueryParameters.new()
@@ -93,13 +126,28 @@ func attack_hit():
 	query.collide_with_bodies = true
 	query.transform = claw_coll.global_transform
 	query.motion = move_vec
-	var collisions = space_state.intersect_shape(query)
+	var collisions = space_state.intersect_shape(query, 1)
 	for coll in collisions:
-		if (coll["collider"].has_signal("hit")):
-			coll["collider"].emit_signal("hit")
-	yield(get_tree().create_timer(0.1), "timeout")
-	attacking = false
-	skeleton.set("playback/loop", -1)
+		var collider = coll["collider"]
+		if collider.has_signal("hit"):
+			return collider
+	return null
+
+func hold_target(target: Node2D):
+	body_anim.play("hold")
+	move_vec = Vector2(0, 0)
+	var hold = Position2D.new()
+	hold.set_name("Hold")
+	target.add_child(hold)
+	hold.global_position = global_position
+	holding_target = hold
+
+func release_target():
+	body_anim.play("lose")
+	holding_target = null
+	move_vec = Vector2(0, 0)
+	jumping = false
+	on_ground = false
 
 func _on_CrabBones_dragon_anim_complete(anim):
 	print("anim complete ", anim)
@@ -114,13 +162,8 @@ func _on_CrabBones_dragon_anim_complete(anim):
 		skeleton.set("playback/speed", 1)
 		skeleton.play(true)
 
-func _on_Control_gui_input(event: InputEventMouseButton):
-	if (event is InputEventMouseButton and event.pressed):
-		if (event.button_index == 1):
-			attack()
+func _on_GroundCheck_body_entered(collbody):
+	._on_GroundCheck_body_entered(collbody)
 
-func _on_GroundCheck_body_entered(body):
-	._on_GroundCheck_body_entered(body)
-
-func _on_GroundCheck_body_exited(body):
-	._on_GroundCheck_body_exited(body)
+func _on_GroundCheck_body_exited(collbody):
+	._on_GroundCheck_body_exited(collbody)
