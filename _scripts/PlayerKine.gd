@@ -41,16 +41,21 @@ func apply_movement(delta):
 
 func _process_jump(delta):
 	# Jump
-	if Input.is_action_pressed("ui_up") and jump_timer < JUMP_TIME_LIMIT:
-		jumping = true
-		move_vec.y = -JUMP_SPEED
-		jump_timer = min(jump_timer + delta, JUMP_TIME_LIMIT)
+	if Input.is_action_pressed("ui_up"):
+		if jump_timer < JUMP_TIME_LIMIT:
+			jumping = true
+			move_vec.y = -JUMP_SPEED
+			jump_timer = min(jump_timer + delta, JUMP_TIME_LIMIT)
+		else:
+			jumping = false
 	else:
 		jumping = false
+		if on_ground:
+			jump_timer = 0
 
 func _on_GroundCheck_body_entered(body):
 	on_ground = true
-	jump_timer = 0
+	# jump_timer = 0
 
 func _on_GroundCheck_body_exited(body):
 	on_ground = false
