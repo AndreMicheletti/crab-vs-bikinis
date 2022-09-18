@@ -40,10 +40,11 @@ func _physics_process(delta):
 	._physics_process(delta)
 	if (defending):
 		move_vec.x = 0
-	if (moving and not jumping):
-		skeleton.set("playback/curr_animation", "move")
-	else:
-		skeleton.set("playback/curr_animation", "idle")
+	if (not defending):
+		if (moving and not jumping):
+			skeleton.set("playback/curr_animation", "move")
+		else:
+			skeleton.set("playback/curr_animation", "idle")
 	apply_movement()
 
 func _process_claw(delta):
@@ -141,5 +142,5 @@ func _on_Control_gui_input(event: InputEventMouseButton):
 		if (event.button_index == 1):
 			attack()
 		elif (event.button_index == 2):
-			GameController.stop_motion(0.03)
+			GameController.stop_frames(8)
 

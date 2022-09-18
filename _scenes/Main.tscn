@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/back/sand.png" type="Texture" id=2]
 [ext_resource path="res://assets/back/water.png" type="Texture" id=3]
 [ext_resource path="res://_scenes/Baby.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/particles/white/circle_04.png" type="Texture" id=5]
 [ext_resource path="res://assets/back/table.png" type="Texture" id=6]
+[ext_resource path="res://assets/particles/white/circle_05.png" type="Texture" id=7]
 [ext_resource path="res://assets/back/dbones/background_ske.json" type="GDDragonBonesResource" id=9]
 [ext_resource path="res://assets/back/dbones/background_tex.png" type="Texture" id=10]
 
@@ -20,11 +22,14 @@ extents = Vector2( 523.78, 19.5056 )
 [node name="Main" type="Node"]
 
 [node name="Background" type="Node2D" parent="."]
+modulate = Color( 0.72549, 0.113725, 0.372549, 1 )
+light_mask = 2
 position = Vector2( -50, 0 )
 
 [node name="BackgroundBones" type="GDDragonBones" parent="Background"]
-position = Vector2( 565.51, 286.027 )
-scale = Vector2( 1.46258, 2.14415 )
+light_mask = 2
+position = Vector2( 565.51, 323.402 )
+scale = Vector2( 2.39858, 2.00756 )
 texture = ExtResource( 10 )
 resource = ExtResource( 9 )
 playback/play = true
@@ -42,8 +47,19 @@ scale = Vector2( 1.5, 2 )
 texture = ExtResource( 3 )
 centered = false
 
+[node name="Light2D" type="Light2D" parent="Background"]
+position = Vector2( 117.558, -202.069 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 7 )
+range_layer_max = 1
+
+[node name="Light2D2" type="Light2D" parent="Background/Light2D"]
+texture = ExtResource( 5 )
+energy = 0.8
+range_layer_max = 1
+
 [node name="Baby" parent="." instance=ExtResource( 4 )]
-position = Vector2( 787.718, 414.899 )
+position = Vector2( 824.529, 401.685 )
 
 [node name="Level" type="Node2D" parent="."]
 position = Vector2( 0, 88.1944 )
