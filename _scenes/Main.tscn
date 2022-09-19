@@ -1,16 +1,25 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/back/sand.png" type="Texture" id=2]
-[ext_resource path="res://assets/back/water.png" type="Texture" id=3]
+[ext_resource path="res://assets/background/mountains.png" type="Texture" id=2]
+[ext_resource path="res://assets/background/sky.png" type="Texture" id=3]
 [ext_resource path="res://_scenes/bosses/Waitress.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/particles/white/circle_04.png" type="Texture" id=5]
-[ext_resource path="res://assets/back/table.png" type="Texture" id=6]
+[ext_resource path="res://assets/background/table.png" type="Texture" id=6]
 [ext_resource path="res://assets/particles/white/circle_05.png" type="Texture" id=7]
 [ext_resource path="res://assets/ui/red_button04.png" type="Texture" id=8]
-[ext_resource path="res://assets/back/dbones/background_ske.json" type="GDDragonBonesResource" id=9]
-[ext_resource path="res://assets/back/dbones/background_tex.png" type="Texture" id=10]
+[ext_resource path="res://assets/background/dbones/background_ske.json" type="GDDragonBonesResource" id=9]
+[ext_resource path="res://assets/background/dbones/background_tex.png" type="Texture" id=10]
 [ext_resource path="res://assets/ui/grey_button11.png" type="Texture" id=11]
+[ext_resource path="res://assets/background/sunshade.png" type="Texture" id=12]
+[ext_resource path="res://assets/background/sunshade-bar.png" type="Texture" id=13]
+[ext_resource path="res://assets/background/shell-1.png" type="Texture" id=14]
+[ext_resource path="res://assets/background/shell-2.png" type="Texture" id=15]
+[ext_resource path="res://assets/background/shell-3.png" type="Texture" id=16]
+[ext_resource path="res://assets/background/bush-2.png" type="Texture" id=17]
+[ext_resource path="res://assets/background/bush-1.png" type="Texture" id=18]
+[ext_resource path="res://_scripts/FallArea.gd" type="Script" id=19]
+[ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44.4799, 313.607 )
@@ -19,7 +28,13 @@ extents = Vector2( 44.4799, 313.607 )
 extents = Vector2( 35.787, 310.547 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 523.78, 19.5056 )
+extents = Vector2( 534.892, 11.2259 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 10, 152.325 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 775.782, 69.7861 )
 
 [node name="Main" type="Node"]
 
@@ -30,38 +45,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="BackgroundBones" type="GDDragonBones" parent="Background"]
-light_mask = 2
-position = Vector2( 565.51, 323.402 )
-scale = Vector2( 2.39858, 2.00756 )
-texture = ExtResource( 10 )
-resource = ExtResource( 9 )
-playback/play = true
-playback/curr_animation = "loop"
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="sand" type="Sprite" parent="Background"]
-visible = false
-scale = Vector2( 1.5, 2 )
-texture = ExtResource( 2 )
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="water" type="Sprite" parent="Background"]
-visible = false
-scale = Vector2( 1.5, 2 )
-texture = ExtResource( 3 )
-centered = false
-__meta__ = {
-"_edit_lock_": true
-}
-
 [node name="Light" type="Light2D" parent="Background"]
-position = Vector2( 355.185, -380.414 )
+position = Vector2( 1069.07, -380.414 )
 scale = Vector2( 6, 6 )
 texture = ExtResource( 7 )
 range_layer_max = 1
@@ -77,59 +62,197 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Waitress" parent="." instance=ExtResource( 4 )]
-position = Vector2( 825.59, 401.045 )
-
-[node name="Level" type="Node2D" parent="."]
-position = Vector2( 0, 88.1944 )
+[node name="Sky" type="Sprite" parent="Background"]
+position = Vector2( 683.781, 166.549 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="table2" type="Sprite" parent="Level"]
-position = Vector2( 772.228, 577.815 )
+[node name="Mountains" type="Sprite" parent="Background/Sky"]
+position = Vector2( -8.50873, 23.4284 )
+rotation = -1.5708
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundBones" type="GDDragonBones" parent="Background"]
+light_mask = 2
+position = Vector2( 689.39, 688.331 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 10 )
+resource = ExtResource( 9 )
+playback/play = true
+playback/curr_animation = "loop"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sunshade" type="Node2D" parent="Background"]
+position = Vector2( 275.049, 91.8981 )
+scale = Vector2( 1.06507, 1.06507 )
+
+[node name="sunshade" type="Sprite" parent="Background/Sunshade"]
+position = Vector2( -0.695374, -5.97156 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="sunshade-bar" type="Sprite" parent="Background/Sunshade"]
+position = Vector2( 1.3452, 408.402 )
+scale = Vector2( 1, 27.6896 )
+texture = ExtResource( 13 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Shells" type="Node2D" parent="Background"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Shell2" type="Sprite" parent="Background/Shells"]
+modulate = Color( 1, 1, 1, 0.705882 )
+position = Vector2( 189.991, 544.337 )
+scale = Vector2( 0.340822, 0.340822 )
+texture = ExtResource( 16 )
+
+[node name="Shell3" type="Sprite" parent="Background/Shells"]
+modulate = Color( 1, 1, 1, 0.705882 )
+position = Vector2( 1207.91, 608.111 )
+rotation = -1.5708
+scale = Vector2( 0.641823, 0.641823 )
+texture = ExtResource( 15 )
+
+[node name="Shell4" type="Sprite" parent="Background/Shells"]
+modulate = Color( 1, 1, 1, 0.705882 )
+position = Vector2( 720.168, 711.88 )
+rotation = -1.5708
+scale = Vector2( 0.58433, 0.58433 )
+texture = ExtResource( 14 )
+
+[node name="BossStage" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Waitress" parent="BossStage" instance=ExtResource( 4 )]
+position = Vector2( 1147.83, 480 )
+
+[node name="Stage" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprites" type="Node2D" parent="Stage"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="table2" type="Sprite" parent="Stage/Sprites"]
+position = Vector2( 786.515, 694.262 )
 scale = Vector2( 0.843336, 0.843336 )
 texture = ExtResource( 6 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="table" type="Sprite" parent="Level"]
-position = Vector2( 227.75, 619.188 )
+[node name="table" type="Sprite" parent="Stage/Sprites"]
+position = Vector2( 227.75, 735.635 )
 texture = ExtResource( 6 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Collisions" type="StaticBody2D" parent="Level"]
+[node name="Limits" type="StaticBody2D" parent="Stage"]
+position = Vector2( 0, 172 )
 collision_mask = 3
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="table1" type="CollisionShape2D" parent="Level/Collisions"]
+[node name="table1" type="CollisionShape2D" parent="Stage/Limits"]
 position = Vector2( -45.4997, 201.382 )
 shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="table2" type="CollisionShape2D" parent="Level/Collisions"]
-position = Vector2( 1059.96, 204.621 )
+[node name="table2" type="CollisionShape2D" parent="Stage/Limits"]
+position = Vector2( 1317.12, 204.621 )
 shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ground" type="CollisionShape2D" parent="Level/Collisions"]
-position = Vector2( 506.855, 478.024 )
+[node name="ground" type="CollisionShape2D" parent="Stage/Limits"]
+position = Vector2( 515.315, 426.873 )
 shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Crab" parent="." instance=ExtResource( 1 )]
-position = Vector2( 861.98, 483.946 )
+[node name="SunshadeGrab" type="StaticBody2D" parent="Stage"]
+position = Vector2( 226.288, 267.27 )
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Coll" type="CollisionShape2D" parent="Stage/SunshadeGrab"]
+shape = SubResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FallArea" type="Area2D" parent="Stage"]
+position = Vector2( 631.159, 755.726 )
+monitorable = false
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 19 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Coll" type="CollisionShape2D" parent="Stage/FallArea"]
+shape = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlayerStage" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Crab" parent="PlayerStage" instance=ExtResource( 1 )]
+position = Vector2( 654.03, 532.179 )
+
+[node name="Foreground" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="bush-1" type="Sprite" parent="Foreground"]
+position = Vector2( 29.2547, 670.954 )
+texture = ExtResource( 18 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="bush-2" type="Sprite" parent="Foreground"]
+position = Vector2( 987.029, 710.192 )
+rotation = -1.5708
+texture = ExtResource( 17 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="UI" type="Control" parent="."]
 light_mask = 0
@@ -179,4 +302,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="gui_input" from="UI" to="Crab" method="_on_UI_gui_input"]
+[connection signal="gui_input" from="UI" to="PlayerStage/Crab" method="_on_UI_gui_input"]

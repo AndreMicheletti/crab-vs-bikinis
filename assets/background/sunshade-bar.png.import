@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/table.png-93b874061cc91a15f8a114d7ca3faa4e.stex"
+path="res://.import/sunshade-bar.png-46aa7658226eace9caf51ec5d341ef25.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/back/table.png"
-dest_files=[ "res://.import/table.png-93b874061cc91a15f8a114d7ca3faa4e.stex" ]
+source_file="res://assets/background/sunshade-bar.png"
+dest_files=[ "res://.import/sunshade-bar.png-46aa7658226eace9caf51ec5d341ef25.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
@@ -28,7 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
-stream=false
+stream=0
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

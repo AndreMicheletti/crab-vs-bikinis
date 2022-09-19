@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sand.png-06e587b85683617a60759513c74a5343.stex"
+path="res://.import/bush-1.png-912b7a66322a8c78cef422f5557a08e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/back/sand.png"
-dest_files=[ "res://.import/sand.png-06e587b85683617a60759513c74a5343.stex" ]
+source_file="res://assets/background/bush-1.png"
+dest_files=[ "res://.import/bush-1.png-912b7a66322a8c78cef422f5557a08e7.stex" ]
 
 [params]
 

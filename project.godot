@@ -36,8 +36,13 @@ GameController="*res://_scripts/GameController.gd"
 
 [display]
 
-window/size/test_width=1024
-window/size/test_height=600
+window/size/width=1280
+window/size/height=720
+window/size/resizable=false
+window/size/test_width=960
+window/size/test_height=540
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [gui]
 

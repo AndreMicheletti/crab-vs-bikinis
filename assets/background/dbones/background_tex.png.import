@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/waves.png-f256dfcbbb88e7b1746bfb1f64945b8b.stex"
+path="res://.import/background_tex.png-ca67b895f2da6ce6073fde9645c7997d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/back/waves.png"
-dest_files=[ "res://.import/waves.png-f256dfcbbb88e7b1746bfb1f64945b8b.stex" ]
+source_file="res://assets/background/dbones/background_tex.png"
+dest_files=[ "res://.import/background_tex.png-ca67b895f2da6ce6073fde9645c7997d.stex" ]
 
 [params]
 

@@ -260,6 +260,6 @@ func _on_GroundCheck_body_exited(collbody):
 
 func _on_UI_gui_input(event: InputEventMouseButton):
 	if (event is InputEventMouseButton and event.pressed and event.button_index == 2):
-		hit()
+		# hit()
 		# stun()
-	pass
+		pass

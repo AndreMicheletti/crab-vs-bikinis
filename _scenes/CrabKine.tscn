@@ -187,7 +187,7 @@ tracks/6/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 21.5667, 9.19239 ), Vector2( 21.5667, 9.19239 ), Vector2( 0, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=4]
 resource_name = "claw_slash_fast"
 length = 0.5
 tracks/0/type = "value"
@@ -232,11 +232,11 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="CapsuleShape2D" id=14]
+[sub_resource type="CapsuleShape2D" id=5]
 radius = 7.49693
 height = 73.382
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
 
 uniform float hit_opacity = 0;
@@ -247,12 +247,11 @@ void fragment(){
 }
 "
 
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
 shader_param/hit_opacity = 0.0
 
-[sub_resource type="Animation" id=4]
-resource_name = "hold"
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
@@ -267,8 +266,7 @@ tracks/0/keys = {
 "values": [ 0.0, 61.4134, 50.1742, 55.0994 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "lose"
+[sub_resource type="Animation" id=9]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rotation_degrees")
@@ -283,15 +281,14 @@ tracks/0/keys = {
 "values": [ 55.0994, 0.0 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=6]
+[sub_resource type="CapsuleShape2D" id=10]
 radius = 40.8083
 height = 19.478
 
-[sub_resource type="CircleShape2D" id=7]
-radius = 3.4955
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 12.7419, 2.79258 )
 
-[sub_resource type="Animation" id=10]
-resource_name = "defend"
+[sub_resource type="Animation" id=12]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("Crab/Body/CrabBones:scale")
@@ -318,8 +315,7 @@ tracks/1/keys = {
 "values": [ 1.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "hit"
+[sub_resource type="Animation" id=13]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -346,7 +342,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0.923259, 0.872837 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=14]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Crab/Stars:visible")
@@ -373,16 +369,21 @@ tracks/1/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
-[node name="CrabKine" type="KinematicBody2D"]
+[node name="CrabKine" type="KinematicBody2D" groups=[
+"player",
+]]
 collision_layer = 2
 collision_mask = 3
-collision/safe_margin = 0.2
+collision/safe_margin = 0.5
 motion/sync_to_physics = true
 script = ExtResource( 3 )
 MOVE_SPEED = 400
 JUMP_SPEED = 700
 GRAVITY_SPEED = 70.0
 JUMP_TIME_LIMIT = 0.5
+MIN_POS = Vector2( 48, 552 )
+MAX_POS = Vector2( 1224, 0 )
+body_shape = NodePath("GroundCheck/Coll")
 
 [node name="Crab" type="Node2D" parent="."]
 __meta__ = {
@@ -428,11 +429,11 @@ shape = SubResource( 1 )
 [node name="Anim" type="AnimationPlayer" parent="Crab/Claws"]
 anims/claw_attack = SubResource( 2 )
 anims/claw_attack_fast = SubResource( 3 )
-anims/claw_slash_fast = SubResource( 13 )
+anims/claw_slash_fast = SubResource( 4 )
 
 [node name="SlashColl" type="CollisionShape2D" parent="Crab/Claws"]
 position = Vector2( -82.4229, 1.16158 )
-shape = SubResource( 14 )
+shape = SubResource( 5 )
 
 [node name="Body" type="Node2D" parent="Crab"]
 position = Vector2( -31.1127, -21.2132 )
@@ -441,7 +442,7 @@ __meta__ = {
 }
 
 [node name="CrabBones" type="GDDragonBones" parent="Crab/Body"]
-material = SubResource( 12 )
+material = SubResource( 7 )
 position = Vector2( 36.416, 18.3848 )
 texture = ExtResource( 2 )
 resource = ExtResource( 1 )
@@ -450,8 +451,8 @@ playback/play = true
 playback/curr_animation = "idle"
 
 [node name="Anim" type="AnimationPlayer" parent="Crab/Body"]
-anims/hold = SubResource( 4 )
-anims/lose = SubResource( 5 )
+anims/hold = SubResource( 8 )
+anims/lose = SubResource( 9 )
 
 [node name="Stars" type="Node2D" parent="Crab"]
 visible = false
@@ -476,32 +477,30 @@ texture = ExtResource( 6 )
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 2.62204, -4.12035 )
 rotation = 1.5708
-shape = SubResource( 6 )
+shape = SubResource( 10 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="GroundCheck" type="Area2D" parent="."]
-visible = false
 position = Vector2( 0, 37.195 )
 gravity_vec = Vector2( 0, 0 )
 gravity = 0.0
 linear_damp = 0.0
+angular_damp = 0.0
+priority = 1.0
 collision_layer = 0
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Coll" type="CollisionShape2D" parent="GroundCheck"]
-shape = SubResource( 7 )
-__meta__ = {
-"_edit_lock_": true
-}
+shape = SubResource( 15 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/defend = SubResource( 10 )
-anims/hit = SubResource( 8 )
-anims/stunned = SubResource( 9 )
+anims/defend = SubResource( 12 )
+anims/hit = SubResource( 13 )
+anims/stunned = SubResource( 14 )
 
 [connection signal="body_entered" from="GroundCheck" to="." method="_on_GroundCheck_body_entered"]
 [connection signal="body_exited" from="GroundCheck" to="." method="_on_GroundCheck_body_exited"]

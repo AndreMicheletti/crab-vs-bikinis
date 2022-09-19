@@ -5,7 +5,8 @@ onready var anim = get_node("Anim")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	anim.play("move")
+	pass
+	# anim.play("move")
 
 func _on_LeftBoob_hit():
 	skeleton.fade_in("hit_left", 0, 1, 0, "default", GDArmatureDisplay.FadeOut_None)
