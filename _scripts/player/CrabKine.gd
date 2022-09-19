@@ -86,18 +86,14 @@ func process_defending():
 		claw_tween.interpolate_property(claw, "global_position", claw.global_position, global_position, 
 			0.3, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 		claw_tween.start()
-		skeleton.set("playback/curr_animation", "defend_enter")
-		skeleton.set("playback/loop", 1)
-		skeleton.play(true)
+		skeleton.fade_in("defend_enter", 0, -1, 1, "defend", GDArmatureDisplay.FadeOut_SameGroup)
 	elif (defending and not now_defending):
 		# Stop defend
 		end_defend()
 	defending = now_defending
 
 func end_defend():
-	skeleton.set("playback/curr_animation", "defend_enter")
-	skeleton.set("playback/loop", 1)
-	skeleton.set("playback/speed", -1)
+	skeleton.fade_in("defend_enter", 0, 1, 1, "defend", GDArmatureDisplay.FadeOut_SameGroup)
 	skeleton.play(true)
 	claw.global_position = claw_pos.global_position
 	claw_tween.stop_all()
@@ -241,16 +237,14 @@ func defeated():
 
 func _on_CrabBones_dragon_anim_complete(anim):
 	print("anim complete ", anim)
+
+func _on_CrabBones_dragon_fade_in_complete(anim):
 	if (anim == "attack"):
 		skeleton.set("playback/curr_animation", "idle")
 		skeleton.set("playback/loop", -1)
-		skeleton.set("playback/speed", 1)
 		skeleton.play(true)
 	if (anim == "defend_enter" and defending):
-		skeleton.set("playback/curr_animation", "defend_loop")
-		skeleton.set("playback/loop", -1)
-		skeleton.set("playback/speed", 1)
-		skeleton.play(true)
+		skeleton.fade_in("defend_loop", 0, -1, 1, "defend", GDArmatureDisplay.FadeOut_All)
 
 func _on_GroundCheck_body_entered(collbody):
 	._on_GroundCheck_body_entered(collbody)
@@ -263,3 +257,4 @@ func _on_UI_gui_input(event: InputEventMouseButton):
 		# hit()
 		# stun()
 		pass
+

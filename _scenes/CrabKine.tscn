@@ -502,5 +502,7 @@ anims/defend = SubResource( 12 )
 anims/hit = SubResource( 13 )
 anims/stunned = SubResource( 14 )
 
+[connection signal="dragon_anim_complete" from="Crab/Body/CrabBones" to="." method="_on_CrabBones_dragon_anim_complete"]
+[connection signal="dragon_fade_in_complete" from="Crab/Body/CrabBones" to="." method="_on_CrabBones_dragon_fade_in_complete"]
 [connection signal="body_entered" from="GroundCheck" to="." method="_on_GroundCheck_body_entered"]
 [connection signal="body_exited" from="GroundCheck" to="." method="_on_GroundCheck_body_exited"]
