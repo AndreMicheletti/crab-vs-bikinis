@@ -1,11 +1,21 @@
 extends Node
 
-var slowmo_counter = 0
+var game_scene = "res://_scenes/Main.tscn"
+var title_scene = "res://_scenes/TitleScreen.tscn"
 
+signal game_over
+
+var slowmo_counter = 0
 var slowmo_frames = 0
 
 func _ready():
-	pass
+	connect("game_over", self, "on_game_over")
+
+func on_game_over():
+	var res = get_tree().change_scene(title_scene)
+
+func start_game():
+	var res = get_tree().change_scene(game_scene)
 
 func _process(delta):
 	if (slowmo_counter > 0):

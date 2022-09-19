@@ -23,6 +23,7 @@ var defending = false
 var holding_target = null
 var defend_cooldown = false
 var stunned = false
+var health = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -158,6 +159,9 @@ func hit():
 		GameController.stop_frames(8)
 		anim.play("hit")
 		release_target()
+		health = max(health - 1, 0)
+		if (health <= 0):
+			defeated()
 
 func on_defend():
 	anim.play("defend")
@@ -232,6 +236,9 @@ func release_target():
 	jumping = false
 	on_ground = false
 
+func defeated():
+	GameController.emit_signal("game_over")
+
 func _on_CrabBones_dragon_anim_complete(anim):
 	print("anim complete ", anim)
 	if (anim == "attack"):
@@ -252,7 +259,7 @@ func _on_GroundCheck_body_exited(collbody):
 	._on_GroundCheck_body_exited(collbody)
 
 func _on_UI_gui_input(event: InputEventMouseButton):
-	pass
-	# if (event is InputEventMouseButton and event.pressed and event.button_index == 2):
-		# hit()
+	if (event is InputEventMouseButton and event.pressed and event.button_index == 2):
+		hit()
 		# stun()
+	pass
