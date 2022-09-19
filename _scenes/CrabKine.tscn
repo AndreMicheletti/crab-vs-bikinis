@@ -385,12 +385,21 @@ GRAVITY_SPEED = 70.0
 JUMP_TIME_LIMIT = 0.5
 
 [node name="Crab" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ClawPos" type="Position2D" parent="Crab"]
 position = Vector2( -23, -12 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ClawDefend" type="Position2D" parent="Crab"]
 position = Vector2( 0, 23 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Claws" type="Node2D" parent="Crab" groups=[
 "claw",
@@ -427,6 +436,9 @@ shape = SubResource( 14 )
 
 [node name="Body" type="Node2D" parent="Crab"]
 position = Vector2( -31.1127, -21.2132 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CrabBones" type="GDDragonBones" parent="Crab/Body"]
 material = SubResource( 12 )
@@ -445,6 +457,9 @@ anims/lose = SubResource( 5 )
 visible = false
 position = Vector2( -32.0487, -46.0866 )
 rotation = 2.51327
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="crab-5" type="Sprite" parent="Crab/Stars"]
 position = Vector2( -20.4705, -9.48663 )
@@ -462,6 +477,9 @@ texture = ExtResource( 6 )
 position = Vector2( 2.62204, -4.12035 )
 rotation = 1.5708
 shape = SubResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="GroundCheck" type="Area2D" parent="."]
 visible = false
@@ -470,9 +488,15 @@ gravity_vec = Vector2( 0, 0 )
 gravity = 0.0
 linear_damp = 0.0
 collision_layer = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Coll" type="CollisionShape2D" parent="GroundCheck"]
 shape = SubResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/defend = SubResource( 10 )

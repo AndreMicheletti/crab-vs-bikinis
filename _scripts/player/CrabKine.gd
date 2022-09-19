@@ -15,6 +15,8 @@ onready var slash_coll = get_node("Crab/Claws/SlashColl")
 onready var skeleton: GDDragonBones = get_node("Crab/Body/CrabBones")
 onready var anim = get_node("Anim")
 
+onready var slash_res = preload("res://_scenes/effects/Slash.tscn")
+
 var flip = false
 var attacking = false
 var defending = false
@@ -124,12 +126,17 @@ func slash():
 	skeleton.set("playback/loop", 1)
 	claw_anim.stop(true)
 	claw_anim.play("claw_slash_fast")
+	yield(get_tree().create_timer(0.1), "timeout")
+	var slash = slash_res.instance()
+	get_tree().root.add_child(slash)
+	slash.global_position = slash_coll.global_position
+	slash.global_rotation = claw.global_rotation
 
 func slash_hit():
 	var hit_body = query_slash_collision()
 	if (hit_body):
 		hit_body.emit_signal("hit")
-	yield(get_tree().create_timer(0.1), "timeout")
+	yield(get_tree().create_timer(0.4), "timeout")
 	attacking = false
 	skeleton.set("playback/loop", -1)
 
@@ -246,6 +253,6 @@ func _on_GroundCheck_body_exited(collbody):
 
 func _on_UI_gui_input(event: InputEventMouseButton):
 	pass
-	#if (event is InputEventMouseButton and event.pressed and event.button_index == 2):
-		#hit()
+	# if (event is InputEventMouseButton and event.pressed and event.button_index == 2):
+		# hit()
 		# stun()
