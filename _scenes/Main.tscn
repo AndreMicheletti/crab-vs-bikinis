@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/back/sand.png" type="Texture" id=2]
@@ -7,8 +7,10 @@
 [ext_resource path="res://assets/particles/white/circle_04.png" type="Texture" id=5]
 [ext_resource path="res://assets/back/table.png" type="Texture" id=6]
 [ext_resource path="res://assets/particles/white/circle_05.png" type="Texture" id=7]
+[ext_resource path="res://assets/ui/red_button04.png" type="Texture" id=8]
 [ext_resource path="res://assets/back/dbones/background_ske.json" type="GDDragonBonesResource" id=9]
 [ext_resource path="res://assets/back/dbones/background_tex.png" type="Texture" id=10]
+[ext_resource path="res://assets/ui/grey_button11.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44.4799, 313.607 )
@@ -24,6 +26,9 @@ extents = Vector2( 523.78, 19.5056 )
 [node name="Background" type="Node2D" parent="."]
 light_mask = 2
 position = Vector2( -50, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BackgroundBones" type="GDDragonBones" parent="Background"]
 light_mask = 2
@@ -33,59 +38,145 @@ texture = ExtResource( 10 )
 resource = ExtResource( 9 )
 playback/play = true
 playback/curr_animation = "loop"
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="sand" type="Sprite" parent="Background"]
 visible = false
 scale = Vector2( 1.5, 2 )
 texture = ExtResource( 2 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="water" type="Sprite" parent="Background"]
 visible = false
 scale = Vector2( 1.5, 2 )
 texture = ExtResource( 3 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Light" type="Light2D" parent="Background"]
 position = Vector2( 355.185, -380.414 )
 scale = Vector2( 6, 6 )
 texture = ExtResource( 7 )
 range_layer_max = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Light2" type="Light2D" parent="Background/Light"]
 texture = ExtResource( 5 )
 energy = 0.5
 range_layer_max = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Waitress" parent="." instance=ExtResource( 4 )]
 position = Vector2( 825.59, 401.045 )
 
 [node name="Level" type="Node2D" parent="."]
 position = Vector2( 0, 88.1944 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="table2" type="Sprite" parent="Level"]
 position = Vector2( 772.228, 577.815 )
 scale = Vector2( 0.843336, 0.843336 )
 texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="table" type="Sprite" parent="Level"]
 position = Vector2( 227.75, 619.188 )
 texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Collisions" type="StaticBody2D" parent="Level"]
 collision_mask = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="table1" type="CollisionShape2D" parent="Level/Collisions"]
 position = Vector2( -45.4997, 201.382 )
 shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="table2" type="CollisionShape2D" parent="Level/Collisions"]
 position = Vector2( 1059.96, 204.621 )
 shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ground" type="CollisionShape2D" parent="Level/Collisions"]
 position = Vector2( 506.855, 478.024 )
 shape = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Crab" parent="." instance=ExtResource( 1 )]
 position = Vector2( 861.98, 483.946 )
+
+[node name="UI" type="Control" parent="."]
+light_mask = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="BossBar" type="Control" parent="UI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -66.0
+margin_top = 274.0
+margin_right = 187.0
+margin_bottom = 317.0
+rect_rotation = -90.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Base" type="NinePatchRect" parent="UI/BossBar"]
+light_mask = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 11 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Contents" type="NinePatchRect" parent="UI/BossBar"]
+light_mask = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -43.0
+texture = ExtResource( 8 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="UI" to="Crab" method="_on_UI_gui_input"]
