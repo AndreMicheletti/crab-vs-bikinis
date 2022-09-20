@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/green_button08.png-f97261bd974deac5dd355270bf6ab670.stex"
+path="res://.import/diver.png-965b8faa96523c6c6d87048614e03647.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/green_button08.png"
-dest_files=[ "res://.import/green_button08.png-f97261bd974deac5dd355270bf6ab670.stex" ]
+source_file="res://assets/ui/boss_miniatures/diver.png"
+dest_files=[ "res://.import/diver.png-965b8faa96523c6c6d87048614e03647.stex" ]
 
 [params]
 

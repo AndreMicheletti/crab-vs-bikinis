@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/background/mountains.png" type="Texture" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/particles/white/circle_04.png" type="Texture" id=5]
 [ext_resource path="res://assets/background/table.png" type="Texture" id=6]
 [ext_resource path="res://assets/particles/white/circle_05.png" type="Texture" id=7]
-[ext_resource path="res://assets/ui/red_button04.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/grey_button12.png" type="Texture" id=8]
 [ext_resource path="res://assets/background/dbones/background_ske.json" type="GDDragonBonesResource" id=9]
 [ext_resource path="res://assets/background/dbones/background_tex.png" type="Texture" id=10]
 [ext_resource path="res://assets/ui/grey_button11.png" type="Texture" id=11]
@@ -23,6 +23,7 @@
 [ext_resource path="res://_scripts/ui/PlayerUI.gd" type="Script" id=21]
 [ext_resource path="res://_scenes/ui/Health.tscn" type="PackedScene" id=22]
 [ext_resource path="res://assets/ui/flash.gdshader" type="Shader" id=23]
+[ext_resource path="res://assets/ui/boss_miniatures/waitress.png" type="Texture" id=24]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44.4799, 313.607 )
@@ -41,7 +42,6 @@ extents = Vector2( 775.782, 69.7861 )
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 23 )
-shader_param/hit_opacity = 0.0276793
 
 [sub_resource type="Animation" id=7]
 resource_name = "loop"
@@ -287,19 +287,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BossBar" type="Control" parent="UI"]
-anchor_left = 1.0
+[node name="BossUI" type="Control" parent="UI"]
 anchor_right = 1.0
-margin_left = -66.0
-margin_top = 274.0
-margin_right = 187.0
-margin_bottom = 317.0
-rect_rotation = -90.0
+margin_bottom = 134.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Base" type="NinePatchRect" parent="UI/BossBar"]
+[node name="BossBar" type="Control" parent="UI/BossUI"]
+anchor_right = 1.0
+margin_left = 325.995
+margin_top = 38.6742
+margin_right = -355.005
+margin_bottom = 77.6742
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Base" type="NinePatchRect" parent="UI/BossUI/BossBar"]
 light_mask = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -309,10 +316,12 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Contents" type="NinePatchRect" parent="UI/BossBar"]
+[node name="Contents" type="NinePatchRect" parent="UI/BossUI/BossBar"]
+modulate = Color( 0.239216, 0.878431, 0.909804, 1 )
 light_mask = 0
 material = SubResource( 6 )
 anchor_right = 1.0
@@ -325,12 +334,24 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Anim" type="AnimationPlayer" parent="UI/BossBar"]
+[node name="Anim" type="AnimationPlayer" parent="UI/BossUI/BossBar"]
 autoplay = "loop"
 anims/loop = SubResource( 7 )
+
+[node name="Miniature" type="TextureRect" parent="UI/BossUI"]
+margin_left = 273.284
+margin_top = 7.97903
+margin_right = 355.284
+margin_bottom = 111.979
+texture = ExtResource( 24 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
 [node name="PlayerUI" type="Control" parent="UI"]
 anchor_bottom = 1.0
