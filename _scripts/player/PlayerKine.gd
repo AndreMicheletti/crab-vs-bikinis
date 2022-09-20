@@ -49,7 +49,8 @@ func fix_collision_bottom():
 	var space_state = get_world_2d().direct_space_state
 	var query = Physics2DShapeQueryParameters.new()
 	var shape_node = get_node(body_shape)
-	query.set_shape(shape_node.shape)
+	var shape: RectangleShape2D = shape_node.shape
+	query.set_shape(shape)
 	query.collision_layer = 1
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
@@ -60,7 +61,7 @@ func fix_collision_bottom():
 		var shape_id = result[0]["shape"]
 		var collider: StaticBody2D = result[0]["collider"]
 		var coll_pos: Transform2D = collider.shape_owner_get_transform(shape_id)
-		global_position.y = collider.global_position.y + coll_pos.origin.y - 48
+		global_position.y = collider.global_position.y + coll_pos.origin.y - 90
 		on_ground = true
 
 func _process_jump(delta):

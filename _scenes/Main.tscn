@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/background/mountains.png" type="Texture" id=2]
@@ -20,7 +20,9 @@
 [ext_resource path="res://assets/background/bush-1.png" type="Texture" id=18]
 [ext_resource path="res://_scripts/FallArea.gd" type="Script" id=19]
 [ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=20]
-[ext_resource path="res://assets/ui/health.png" type="Texture" id=21]
+[ext_resource path="res://_scripts/ui/PlayerUI.gd" type="Script" id=21]
+[ext_resource path="res://_scenes/ui/Health.tscn" type="PackedScene" id=22]
+[ext_resource path="res://assets/ui/flash.gdshader" type="Shader" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44.4799, 313.607 )
@@ -29,13 +31,34 @@ extents = Vector2( 44.4799, 313.607 )
 extents = Vector2( 35.787, 310.547 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 534.892, 11.2259 )
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 10, 152.325 )
+extents = Vector2( 534.892, 54.4099 )
 
 [sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 10, 152.325 )
+
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 775.782, 69.7861 )
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 23 )
+shader_param/hit_opacity = 0.0276793
+
+[sub_resource type="Animation" id=7]
+resource_name = "loop"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Contents:material:shader_param/hit_opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.2, 0.0 ]
+}
 
 [node name="Main" type="Node"]
 
@@ -154,7 +177,7 @@ __meta__ = {
 }
 
 [node name="table2" type="Sprite" parent="Stage/Sprites"]
-position = Vector2( 786.515, 694.262 )
+position = Vector2( 786.515, 712.647 )
 scale = Vector2( 0.843336, 0.843336 )
 texture = ExtResource( 6 )
 __meta__ = {
@@ -162,7 +185,7 @@ __meta__ = {
 }
 
 [node name="table" type="Sprite" parent="Stage/Sprites"]
-position = Vector2( 227.75, 735.635 )
+position = Vector2( 227.75, 754.02 )
 texture = ExtResource( 6 )
 __meta__ = {
 "_edit_lock_": true
@@ -190,7 +213,7 @@ __meta__ = {
 }
 
 [node name="ground" type="CollisionShape2D" parent="Stage/Limits"]
-position = Vector2( 515.315, 426.873 )
+position = Vector2( 515.315, 485.128 )
 shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
@@ -206,13 +229,13 @@ __meta__ = {
 }
 
 [node name="Coll" type="CollisionShape2D" parent="Stage/SunshadeGrab"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="FallArea" type="Area2D" parent="Stage"]
-position = Vector2( 631.159, 755.726 )
+position = Vector2( 631.159, 791.081 )
 monitorable = false
 collision_layer = 0
 collision_mask = 2
@@ -222,7 +245,7 @@ __meta__ = {
 }
 
 [node name="Coll" type="CollisionShape2D" parent="Stage/FallArea"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -291,9 +314,11 @@ __meta__ = {
 
 [node name="Contents" type="NinePatchRect" parent="UI/BossBar"]
 light_mask = 0
+material = SubResource( 6 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -43.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
 texture = ExtResource( 8 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -303,25 +328,53 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Anim" type="AnimationPlayer" parent="UI/BossBar"]
+autoplay = "loop"
+anims/loop = SubResource( 7 )
+
 [node name="PlayerUI" type="Control" parent="UI"]
-anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -107.0
-margin_right = 641.0
+margin_right = 80.0
+script = ExtResource( 21 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TextureRect" type="TextureRect" parent="UI/PlayerUI"]
-margin_left = 130.992
-margin_top = 14.0
-margin_right = 212.992
-margin_bottom = 100.0
-texture = ExtResource( 21 )
-expand = true
-stretch_mode = 6
+[node name="HealthBar" type="Control" parent="UI/PlayerUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
+[node name="Health" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+margin_left = 6.62253
+margin_top = -6.97858
+margin_right = 56.6225
+margin_bottom = 43.0214
+
+[node name="Health2" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+margin_left = 5.42908
+margin_top = 49.1124
+margin_right = 55.4291
+margin_bottom = 99.1124
+
+[node name="Health3" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+margin_left = 5.42908
+margin_top = 106.397
+margin_right = 55.4291
+margin_bottom = 156.397
+
+[node name="Tween" type="Tween" parent="UI/PlayerUI"]
+
+[node name="AutoHide" type="Timer" parent="UI/PlayerUI"]
+wait_time = 1.5
+autostart = true
+
+[connection signal="health_changed" from="PlayerStage/Crab" to="UI/PlayerUI" method="_on_Crab_health_changed"]
 [connection signal="gui_input" from="UI" to="PlayerStage/Crab" method="_on_UI_gui_input"]
+[connection signal="tween_completed" from="UI/PlayerUI/Tween" to="UI/PlayerUI" method="_on_Tween_tween_completed"]
+[connection signal="timeout" from="UI/PlayerUI/AutoHide" to="UI/PlayerUI" method="_on_AutoHide_timeout"]

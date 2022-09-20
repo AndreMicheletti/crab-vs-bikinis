@@ -1,5 +1,7 @@
 extends PlayerKine
 
+signal health_changed
+
 export(int) var CLAW_SPEED = 250
 
 onready var crab = get_node("Crab")
@@ -110,8 +112,7 @@ func attack():
 	if (attacking or defending):
 		return
 	attacking = true
-	skeleton.set("playback/curr_animation", "attack")
-	skeleton.set("playback/loop", 1)
+	skeleton.fade_in("attack", 0, 1, 0, "default", GDArmatureDisplay.FadeOut_SameGroup)
 	claw_anim.stop(true)
 	claw_anim.play("claw_attack_fast")
 
@@ -119,8 +120,7 @@ func slash():
 	if (attacking or defending):
 		return
 	attacking = true
-	skeleton.set("playback/curr_animation", "attack")
-	skeleton.set("playback/loop", 1)
+	skeleton.fade_in("attack", 0, 1, 0, "default", GDArmatureDisplay.FadeOut_SameGroup)
 	claw_anim.stop(true)
 	claw_anim.play("claw_slash_fast")
 	yield(get_tree().create_timer(0.1), "timeout")
@@ -158,6 +158,7 @@ func hit():
 		health = max(health - 1, 0)
 		if (health <= 0):
 			defeated()
+		emit_signal("health_changed", self)
 
 func on_defend():
 	anim.play("defend")
@@ -240,9 +241,7 @@ func _on_CrabBones_dragon_anim_complete(anim):
 
 func _on_CrabBones_dragon_fade_in_complete(anim):
 	if (anim == "attack"):
-		skeleton.set("playback/curr_animation", "idle")
-		skeleton.set("playback/loop", -1)
-		skeleton.play(true)
+		skeleton.fade_in("idle", 0, -1, 0, "default", GDArmatureDisplay.FadeOut_SameGroup)
 	if (anim == "defend_enter" and defending):
 		skeleton.fade_in("defend_loop", 0, -1, 1, "defend", GDArmatureDisplay.FadeOut_All)
 
