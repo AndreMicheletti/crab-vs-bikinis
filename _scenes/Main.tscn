@@ -40,15 +40,12 @@ extents = Vector2( 10, 152.325 )
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 775.782, 69.7861 )
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = ExtResource( 23 )
-
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "loop"
 length = 2.0
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Contents:material:shader_param/hit_opacity")
+tracks/0/path = NodePath("BossBar/Contents:material:shader_param/hit_opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -57,8 +54,12 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.2, 0.0 ]
+"values": [ 0.0, 0.3, 0.0 ]
 }
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 23 )
+shader_param/hit_opacity = 0.0
 
 [node name="Main" type="Node"]
 
@@ -295,6 +296,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Anim" type="AnimationPlayer" parent="UI/BossUI"]
+autoplay = "loop"
+anims/loop = SubResource( 6 )
+
 [node name="BossBar" type="Control" parent="UI/BossUI"]
 anchor_right = 1.0
 margin_left = 325.995
@@ -321,9 +326,9 @@ __meta__ = {
 }
 
 [node name="Contents" type="NinePatchRect" parent="UI/BossUI/BossBar"]
-modulate = Color( 0.239216, 0.878431, 0.909804, 1 )
+self_modulate = Color( 0.152941, 0.945098, 0.92549, 1 )
 light_mask = 0
-material = SubResource( 6 )
+material = SubResource( 7 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 2
@@ -337,10 +342,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-
-[node name="Anim" type="AnimationPlayer" parent="UI/BossUI/BossBar"]
-autoplay = "loop"
-anims/loop = SubResource( 7 )
 
 [node name="Miniature" type="TextureRect" parent="UI/BossUI"]
 margin_left = 273.284
