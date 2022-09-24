@@ -3,6 +3,7 @@ extends GDDragonBones
 class_name SkeletonController
 
 signal anim_once_ended
+signal anim_separate_ended
 
 var group_layers = {}
 var group_loops = {}
@@ -31,7 +32,9 @@ func play_once(group: String, anim_name: String, times: int) -> void:
 
 func play_separate(group: String, anim_name: String, times: int) -> void:
 	if not looping: return
-	fade_in(anim_name, 0, times, 1, group, GDArmatureDisplay.FadeOut_SameLayer)
+	fade_in(anim_name, 0, times, 1, group, GDArmatureDisplay.FadeOut_SameLayerAndGroup)
+	yield(self, "dragon_fade_in_complete")
+	emit_signal("anim_separate_ended")
 
 func play_once_and_loop(group: String, single_anim: String, loop_anim: String, times = 1) -> void:
 	play_loop(group, loop_anim)
@@ -41,7 +44,7 @@ func on_dragon_complete(anim: String) -> void:
 	if (anim_name_group.has(anim)):
 		var group = anim_name_group[anim]
 		if (group_loops.has(group)):
-			print("fade in complete ", anim)
+			print("dragon complete ", anim)
 			var loop_anim = group_loops[group]
 			var layer = group_layers[group]
 			print("resuming anim ", loop_anim)

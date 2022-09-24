@@ -31,6 +31,7 @@ var health = 3
 func _ready():
 	skeleton.set("playback/curr_animation", "idle")
 	skeleton.play(true)
+	GameController.player = self
 
 func _process(delta):
 	if (stunned):

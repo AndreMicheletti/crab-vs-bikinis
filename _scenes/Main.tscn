@@ -167,9 +167,8 @@ __meta__ = {
 }
 
 [node name="Waitress" parent="BossStage" instance=ExtResource( 4 )]
-position = Vector2( 1117.97, 501.419 )
-MIN_POS = Vector2( 269.839, 501.419 )
-MAX_POS = Vector2( 1117.97, 501.419 )
+position = Vector2( 1165, 502 )
+DEFAULT_POS = Vector2( 1165, 502 )
 
 [node name="Stage" type="Node2D" parent="."]
 __meta__ = {
@@ -261,7 +260,7 @@ __meta__ = {
 }
 
 [node name="Crab" parent="PlayerStage" instance=ExtResource( 1 )]
-position = Vector2( 654.03, 532.179 )
+position = Vector2( 570.744, 557.377 )
 
 [node name="Foreground" type="Node2D" parent="."]
 __meta__ = {

@@ -1,8 +1,8 @@
 extends Area2D
 
+export(bool) var active = false
 export(float) var COOLDOWN_TIME = 0.2
 
-var active = false
 var cooldown = false
 
 func _ready():
@@ -14,7 +14,7 @@ func set_active(val: bool):
 	cooldown = false
 
 func _physics_process(delta):
-	if (active and not cooldown):
+	if (visible and active and not cooldown):
 		query_hit()
 
 func start_cooldown():

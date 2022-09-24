@@ -1,99 +1,110 @@
 extends Node2D
 
-export(float) var MOVE_SPEED = 100
-export(Vector2) var MIN_POS = Vector2(0, 0)
-export(Vector2) var MAX_POS = Vector2(0, 0)
+export(Vector2) var DEFAULT_POS = Vector2(0, 0)
 
 onready var skeleton: SkeletonController = get_node("Skeleton")
 onready var anim = get_node("Anim")
 onready var action_timer = get_node("ActionTimer")
 onready var tween = get_node("Tween")
 
+onready var hitboxes = {
+	"attack_unarmed": get_node("Skeleton/Hitbox/UnarmedHitbox"),
+	"attack_armed": get_node("Skeleton/Hitbox/ArmedHitbox"),
+	"attack_armed_sweep": get_node("Skeleton/Hitbox/ArmedSweepHitbox")
+}
+
 var armed = false
-var moving = true
-var dir = -1
-
-const unarmed_actions = [
-	"attack_unarmed",
-]
-
-const armed_action = [
-	"attack_armed",
-	"attack_armed_sweep",
-	"attack_throw",
-]
+var throw_idx = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	skeleton.play_loop("body", "idle")
 	skeleton.set("playback/play", true)
-	action_timer.connect("timeout", self, "on_action_timer")
-	action_timer.start()
+	#action_timer.connect("timeout", self, "on_action_timer")
+	#action_timer.start()
+	sequence_reset()
 
-func _physics_process(delta):
-	if not moving: return
-	var start_pos = global_position
-	var move = Vector2(MOVE_SPEED * dir * delta, 0)
-	var move_x = clamp(start_pos.x + move.x, MIN_POS.x, MAX_POS.x)
-	global_position = Vector2(move_x, start_pos.y)
-	if global_position == MIN_POS:
-		skeleton.scale.x = -1
-		dir = 1
-	elif global_position == MAX_POS:
-		skeleton.scale.x = 1
-		dir = -1
 
-func on_action_timer():
-	print("ACTION TIMER")
+func sequence_reset():
+	armed = false
+	skeleton.set("playback/curr_animation", "idle")
+	tween.interpolate_property(self, "global_position", global_position, DEFAULT_POS, 
+		0.5, Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween, "tween_completed")
+	yield(get_tree().create_timer(1), "timeout")
 	randomize()
-	var rand = randi() % 2
-	if rand == 0:
-		if (not armed): attack_unarmed()
-		else:
-			if (randi() % 2 == 0): attack_armed()
-			else: attack_armed_sweep()
+	if randi() % 2 == 0:
+		sequence_unarmed(randi() % 6 + 2)
+		# sequence_throw()
 	else:
-		if (not armed): armed_in()
-		else: armed_throw()
+		sequence_throw()
+
+func sequence_unarmed(times: int):
+	if (times <= 0):
+		sequence_reset()
+		return
+	yield(get_tree().create_timer(0.4), "timeout")
+	var goto_x = GameController.player.global_position.x  + 280
+	var start = global_position
+	tween.interpolate_property(self, "global_position", start, Vector2(goto_x, start.y), 
+		0.5, Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween, "tween_completed")
+	yield(attack_unarmed(), "completed")
+	sequence_unarmed(times - 1)
+
+func sequence_throw(reset = false):
+	skeleton.set("playback/curr_animation", "idle_armed")
+	if reset: skeleton.play_loop("body", "idle")
+	else: skeleton.play_loop("body", "idle_armed")
+	if not armed:
+		yield(armed_in(), "completed")
+	yield(get_tree().create_timer(0.2), "timeout")
+	skeleton.set("playback/speed", 1.5)
+	yield(armed_throw(3), "completed")
+	skeleton.set("playback/speed", 1)
+	if reset: sequence_reset()
+	else:
+		yield(get_tree().create_timer(0.2), "timeout")
+		sequence_armed(1)
+
+func sequence_armed(rand: int):
+	randomize()
+	if (rand > 0):
+		if rand == 1: yield(attack_armed_sweep(), "completed")
+		if rand > 1: yield(attack_armed(), "completed")
+		yield(get_tree().create_timer(0.4), "timeout")
+		sequence_armed(randi() % 3)
+	else:
+		yield(get_tree().create_timer(0.4), "timeout")
+		sequence_throw(true)
 
 func attack_armed():
 	skeleton.play_once("body", "attack_armed", 1)
-	moving = false
 	yield(skeleton, "anim_once_ended")
-	moving = true
 
 func attack_armed_sweep():
 	skeleton.play_once("body", "attack_armed_sweep", 1)
-	moving = false
 	yield(skeleton, "anim_once_ended")
-	moving = true
 
 func armed_in():
-	set_armed(true)
 	skeleton.play_once("body", "armed_in", 1)
 	yield(skeleton, "anim_once_ended")
+	armed = true
 
-func armed_throw():
-	set_armed(false)
-	skeleton.play_once("body", "attack_throw", 1)
-	moving = false
+func armed_throw(times = 1):
+	throw_idx = 0
+	skeleton.play_once("body", "attack_throw", times)
 	yield(skeleton, "anim_once_ended")
-	moving = true
 
 func attack_unarmed():
 	skeleton.play_once("body", "attack_unarmed", 1)
-	moving = false
 	yield(skeleton, "anim_once_ended")
-	moving = true
 
 func hit():
 	GameController.stop_frames(8)
 	$Anim.play("hit")
-
-func set_armed(val: bool):
-	armed = val
-	if val: skeleton.play_loop("body", "idle_armed")
-	else: skeleton.play_loop("body", "idle")
 
 func _on_LeftBoob_hit():
 	skeleton.play_separate("boobs_left", "hit_left", 1)
@@ -106,9 +117,11 @@ func _on_RightBoob_hit():
 func _on_Skeleton_dragon_anim_event(event):
 	var animation = event["animation"]
 	var ev_name = event["event_name"]
-	var hitbox = null
+	if ev_name == "attackThrow":
+		anim.play("bottle_" + str(throw_idx))
+		throw_idx += 1
+		return
 	var active = ev_name == "attackHitStart"
-	if animation == "attack_unarmed":
-		hitbox = $Skeleton/UnarmedHitbox
+	var hitbox = hitboxes.get(animation, null)
 	if hitbox:
 		hitbox.set_active(active)

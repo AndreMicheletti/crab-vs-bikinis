@@ -8,6 +8,8 @@ signal game_over
 var slowmo_counter = 0
 var slowmo_frames = 0
 
+var player
+
 func _ready():
 	connect("game_over", self, "on_game_over")
 
