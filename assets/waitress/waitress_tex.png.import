@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/waitress_tex.png-dbfd8bad0dadc0224182d6cc7b1f530f.stex"
+path="res://.import/Waitress_tex.png-801267d17fbcb064cc9849035fce063a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/waitress/waitress_tex.png"
-dest_files=[ "res://.import/waitress_tex.png-dbfd8bad0dadc0224182d6cc7b1f530f.stex" ]
+source_file="res://assets/waitress/Waitress_tex.png"
+dest_files=[ "res://.import/Waitress_tex.png-801267d17fbcb064cc9849035fce063a.stex" ]
 
 [params]
 

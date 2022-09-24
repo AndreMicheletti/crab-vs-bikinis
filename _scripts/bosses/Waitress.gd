@@ -9,8 +9,19 @@ onready var anim = get_node("Anim")
 onready var action_timer = get_node("ActionTimer")
 onready var tween = get_node("Tween")
 
+var armed = false
 var moving = true
 var dir = -1
+
+const unarmed_actions = [
+	"attack_unarmed",
+]
+
+const armed_action = [
+	"attack_armed",
+	"attack_armed_sweep",
+	"attack_throw",
+]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,6 +45,42 @@ func _physics_process(delta):
 
 func on_action_timer():
 	print("ACTION TIMER")
+	randomize()
+	var rand = randi() % 2
+	if rand == 0:
+		if (not armed): attack_unarmed()
+		else:
+			if (randi() % 2 == 0): attack_armed()
+			else: attack_armed_sweep()
+	else:
+		if (not armed): armed_in()
+		else: armed_throw()
+
+func attack_armed():
+	skeleton.play_once("body", "attack_armed", 1)
+	moving = false
+	yield(skeleton, "anim_once_ended")
+	moving = true
+
+func attack_armed_sweep():
+	skeleton.play_once("body", "attack_armed_sweep", 1)
+	moving = false
+	yield(skeleton, "anim_once_ended")
+	moving = true
+
+func armed_in():
+	set_armed(true)
+	skeleton.play_once("body", "armed_in", 1)
+	yield(skeleton, "anim_once_ended")
+
+func armed_throw():
+	set_armed(false)
+	skeleton.play_once("body", "attack_throw", 1)
+	moving = false
+	yield(skeleton, "anim_once_ended")
+	moving = true
+
+func attack_unarmed():
 	skeleton.play_once("body", "attack_unarmed", 1)
 	moving = false
 	yield(skeleton, "anim_once_ended")
@@ -42,6 +89,11 @@ func on_action_timer():
 func hit():
 	GameController.stop_frames(8)
 	$Anim.play("hit")
+
+func set_armed(val: bool):
+	armed = val
+	if val: skeleton.play_loop("body", "idle_armed")
+	else: skeleton.play_loop("body", "idle")
 
 func _on_LeftBoob_hit():
 	skeleton.play_separate("boobs_left", "hit_left", 1)

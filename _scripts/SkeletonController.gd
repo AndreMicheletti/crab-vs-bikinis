@@ -44,6 +44,7 @@ func on_dragon_complete(anim: String) -> void:
 			print("fade in complete ", anim)
 			var loop_anim = group_loops[group]
 			var layer = group_layers[group]
+			print("resuming anim ", loop_anim)
 			emit_signal("anim_once_ended", anim)
 			play_loop(group, loop_anim)
 			anim_name_group.erase(anim)

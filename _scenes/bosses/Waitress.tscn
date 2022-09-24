@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://_scripts/bosses/Waitress.gd" type="Script" id=1]
-[ext_resource path="res://assets/waitress/waitress_ske.json" type="GDDragonBonesResource" id=2]
-[ext_resource path="res://assets/waitress/waitress_tex.png" type="Texture" id=3]
+[ext_resource path="res://assets/waitress/Waitress_tex.png" type="Texture" id=2]
+[ext_resource path="res://assets/waitress/Waitress_ske.json" type="GDDragonBonesResource" id=3]
 [ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=4]
 [ext_resource path="res://_scripts/SkeletonController.gd" type="Script" id=5]
 [ext_resource path="res://_scripts/Hitbox.gd" type="Script" id=6]
@@ -55,20 +55,20 @@ tracks/0/keys = {
 }
 
 [node name="Waitress" type="Node2D"]
-position = Vector2( 760, 480 )
 script = ExtResource( 1 )
 MOVE_SPEED = 200.0
 
 [node name="Skeleton" type="GDDragonBones" parent="."]
 material = SubResource( 5 )
-texture = ExtResource( 3 )
-resource = ExtResource( 2 )
-playback/play = true
-playback/curr_animation = "idle"
+texture = ExtResource( 2 )
+resource = ExtResource( 3 )
 script = ExtResource( 5 )
 
 [node name="LeftBoob" type="Node2D" parent="Skeleton"]
 position = Vector2( -113.363, -100.649 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="LeftBoob" type="StaticBody2D" parent="Skeleton/LeftBoob"]
 collision_layer = 4
@@ -83,6 +83,9 @@ __meta__ = {
 
 [node name="RightBoob" type="Node2D" parent="Skeleton"]
 position = Vector2( -34.9623, -115.481 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="RightBoob" type="StaticBody2D" parent="Skeleton/RightBoob"]
 collision_layer = 4
@@ -100,6 +103,9 @@ position = Vector2( -260.201, -60.6215 )
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Coll" type="CollisionShape2D" parent="Skeleton/UnarmedHitbox"]
 shape = SubResource( 4 )
