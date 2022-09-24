@@ -1,15 +1,42 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://_scripts/bosses/Waitress.gd" type="Script" id=1]
 [ext_resource path="res://assets/waitress/waitress_ske.json" type="GDDragonBonesResource" id=2]
 [ext_resource path="res://assets/waitress/waitress_tex.png" type="Texture" id=3]
 [ext_resource path="res://_scripts/HitTarget.gd" type="Script" id=4]
+[ext_resource path="res://_scripts/SkeletonController.gd" type="Script" id=5]
+[ext_resource path="res://_scripts/Hitbox.gd" type="Script" id=6]
+[ext_resource path="res://assets/ui/flash.gdshader" type="Shader" id=7]
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 7 )
+shader_param/hit_opacity = 0.0
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 45.4485
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 45.4485
+
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 55.2008
+height = 156.355
+
+[sub_resource type="Animation" id=6]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton:material:shader_param/hit_opacity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.6, 0.0 ]
+}
 
 [sub_resource type="Animation" id=3]
 length = 4.0
@@ -30,41 +57,65 @@ tracks/0/keys = {
 [node name="Waitress" type="Node2D"]
 position = Vector2( 760, 480 )
 script = ExtResource( 1 )
+MOVE_SPEED = 200.0
 
 [node name="Skeleton" type="GDDragonBones" parent="."]
+material = SubResource( 5 )
 texture = ExtResource( 3 )
 resource = ExtResource( 2 )
 playback/play = true
 playback/curr_animation = "idle"
+script = ExtResource( 5 )
 
-[node name="LeftBoob" type="StaticBody2D" parent="."]
-position = Vector2( -110.123, -105.228 )
+[node name="LeftBoob" type="Node2D" parent="Skeleton"]
+position = Vector2( -113.363, -100.649 )
+
+[node name="LeftBoob" type="StaticBody2D" parent="Skeleton/LeftBoob"]
 collision_layer = 4
 collision_mask = 4
 script = ExtResource( 4 )
 
-[node name="Coll" type="CollisionShape2D" parent="LeftBoob"]
-position = Vector2( 1.41418, 4.24261 )
+[node name="Coll" type="CollisionShape2D" parent="Skeleton/LeftBoob/LeftBoob"]
 shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="RightBoob" type="StaticBody2D" parent="."]
-position = Vector2( -38.042, -123.248 )
+[node name="RightBoob" type="Node2D" parent="Skeleton"]
+position = Vector2( -34.9623, -115.481 )
+
+[node name="RightBoob" type="StaticBody2D" parent="Skeleton/RightBoob"]
 collision_layer = 4
 collision_mask = 4
 script = ExtResource( 4 )
 
-[node name="Coll" type="CollisionShape2D" parent="RightBoob"]
-position = Vector2( 1.41418, 4.24261 )
+[node name="Coll" type="CollisionShape2D" parent="Skeleton/RightBoob/RightBoob"]
 shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="UnarmedHitbox" type="Area2D" parent="Skeleton"]
+position = Vector2( -260.201, -60.6215 )
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 6 )
+
+[node name="Coll" type="CollisionShape2D" parent="Skeleton/UnarmedHitbox"]
+shape = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Tween" type="Tween" parent="."]
+
 [node name="Anim" type="AnimationPlayer" parent="."]
+anims/hit = SubResource( 6 )
 anims/move = SubResource( 3 )
 
-[connection signal="hit" from="LeftBoob" to="." method="_on_LeftBoob_hit"]
-[connection signal="hit" from="RightBoob" to="." method="_on_LeftBoob_hit"]
+[node name="ActionTimer" type="Timer" parent="."]
+wait_time = 4.0
+
+[connection signal="dragon_anim_event" from="Skeleton" to="." method="_on_Skeleton_dragon_anim_event"]
+[connection signal="hit" from="Skeleton/LeftBoob/LeftBoob" to="." method="_on_LeftBoob_hit"]
+[connection signal="hit" from="Skeleton/RightBoob/RightBoob" to="." method="_on_RightBoob_hit"]

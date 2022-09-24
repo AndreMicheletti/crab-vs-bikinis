@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "PlayerRigid",
 "language": "GDScript",
 "path": "res://_scripts/player/PlayerRigid.gd"
+}, {
+"base": "GDDragonBones",
+"class": "SkeletonController",
+"language": "GDScript",
+"path": "res://_scripts/SkeletonController.gd"
 } ]
 _global_script_class_icons={
 "PlayerKine": "",
-"PlayerRigid": ""
+"PlayerRigid": "",
+"SkeletonController": ""
 }
 
 [application]

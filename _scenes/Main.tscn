@@ -63,6 +63,8 @@ shader_param/hit_opacity = 0.0
 
 [node name="Main" type="Node"]
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
 [node name="Background" type="Node2D" parent="."]
 light_mask = 2
 position = Vector2( -50, 0 )
@@ -165,7 +167,9 @@ __meta__ = {
 }
 
 [node name="Waitress" parent="BossStage" instance=ExtResource( 4 )]
-position = Vector2( 1147.83, 480 )
+position = Vector2( 1117.97, 501.419 )
+MIN_POS = Vector2( 269.839, 501.419 )
+MAX_POS = Vector2( 1117.97, 501.419 )
 
 [node name="Stage" type="Node2D" parent="."]
 __meta__ = {
@@ -279,7 +283,9 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="UI" type="Control" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="UILayer"]
 light_mask = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -288,7 +294,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BossUI" type="Control" parent="UI"]
+[node name="BossUI" type="Control" parent="UILayer/UI"]
 anchor_right = 1.0
 margin_bottom = 134.0
 __meta__ = {
@@ -296,11 +302,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Anim" type="AnimationPlayer" parent="UI/BossUI"]
+[node name="Anim" type="AnimationPlayer" parent="UILayer/UI/BossUI"]
 autoplay = "loop"
 anims/loop = SubResource( 6 )
 
-[node name="BossBar" type="Control" parent="UI/BossUI"]
+[node name="BossBar" type="Control" parent="UILayer/UI/BossUI"]
 anchor_right = 1.0
 margin_left = 325.995
 margin_top = 38.6742
@@ -311,7 +317,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Base" type="NinePatchRect" parent="UI/BossUI/BossBar"]
+[node name="Base" type="NinePatchRect" parent="UILayer/UI/BossUI/BossBar"]
 light_mask = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -325,7 +331,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Contents" type="NinePatchRect" parent="UI/BossUI/BossBar"]
+[node name="Contents" type="NinePatchRect" parent="UILayer/UI/BossUI/BossBar"]
 self_modulate = Color( 0.152941, 0.945098, 0.92549, 1 )
 light_mask = 0
 material = SubResource( 7 )
@@ -343,7 +349,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Miniature" type="TextureRect" parent="UI/BossUI"]
+[node name="Miniature" type="TextureRect" parent="UILayer/UI/BossUI"]
 margin_left = 273.284
 margin_top = 7.97903
 margin_right = 355.284
@@ -354,7 +360,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerUI" type="Control" parent="UI"]
+[node name="PlayerUI" type="Control" parent="UILayer/UI"]
 anchor_bottom = 1.0
 margin_right = 80.0
 script = ExtResource( 21 )
@@ -362,7 +368,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="HealthBar" type="Control" parent="UI/PlayerUI"]
+[node name="HealthBar" type="Control" parent="UILayer/UI/PlayerUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 1.0
@@ -372,31 +378,31 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Health" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+[node name="Health" parent="UILayer/UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
 margin_left = 6.62253
 margin_top = -6.97858
 margin_right = 56.6225
 margin_bottom = 43.0214
 
-[node name="Health2" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+[node name="Health2" parent="UILayer/UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
 margin_left = 5.42908
 margin_top = 49.1124
 margin_right = 55.4291
 margin_bottom = 99.1124
 
-[node name="Health3" parent="UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
+[node name="Health3" parent="UILayer/UI/PlayerUI/HealthBar" instance=ExtResource( 22 )]
 margin_left = 5.42908
 margin_top = 106.397
 margin_right = 55.4291
 margin_bottom = 156.397
 
-[node name="Tween" type="Tween" parent="UI/PlayerUI"]
+[node name="Tween" type="Tween" parent="UILayer/UI/PlayerUI"]
 
-[node name="AutoHide" type="Timer" parent="UI/PlayerUI"]
+[node name="AutoHide" type="Timer" parent="UILayer/UI/PlayerUI"]
 wait_time = 1.5
 autostart = true
 
-[connection signal="health_changed" from="PlayerStage/Crab" to="UI/PlayerUI" method="_on_Crab_health_changed"]
-[connection signal="gui_input" from="UI" to="PlayerStage/Crab" method="_on_UI_gui_input"]
-[connection signal="tween_completed" from="UI/PlayerUI/Tween" to="UI/PlayerUI" method="_on_Tween_tween_completed"]
-[connection signal="timeout" from="UI/PlayerUI/AutoHide" to="UI/PlayerUI" method="_on_AutoHide_timeout"]
+[connection signal="health_changed" from="PlayerStage/Crab" to="UILayer/UI/PlayerUI" method="_on_Crab_health_changed"]
+[connection signal="gui_input" from="UILayer/UI" to="PlayerStage/Crab" method="_on_UI_gui_input"]
+[connection signal="tween_completed" from="UILayer/UI/PlayerUI/Tween" to="UILayer/UI/PlayerUI" method="_on_Tween_tween_completed"]
+[connection signal="timeout" from="UILayer/UI/PlayerUI/AutoHide" to="UILayer/UI/PlayerUI" method="_on_AutoHide_timeout"]
