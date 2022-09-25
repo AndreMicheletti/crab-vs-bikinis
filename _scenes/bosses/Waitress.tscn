@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://_scripts/bosses/Waitress.gd" type="Script" id=1]
 [ext_resource path="res://assets/waitress/Waitress_tex.png" type="Texture" id=2]
@@ -9,183 +9,27 @@
 [ext_resource path="res://assets/ui/flash.gdshader" type="Shader" id=7]
 [ext_resource path="res://assets/waitress/bottle.png" type="Texture" id=8]
 [ext_resource path="res://_scripts/Hitbox.gd" type="Script" id=9]
+[ext_resource path="res://_scenes/effects/Bottle.tscn" type="PackedScene" id=10]
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 7 )
 shader_param/hit_opacity = 0.0
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=2]
 radius = 45.4485
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 45.4485
 
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 55.2008
 height = 156.355
 
-[sub_resource type="CapsuleShape2D" id=8]
-radius = 21.5429
-height = 73.3282
-
-[sub_resource type="Animation" id=9]
-resource_name = "bottle_0"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Bottles/Bottle1:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Bottles/Bottle1:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, -123.7 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Bottles/Bottle1/Coll:rotation_degrees")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -26.0542, -360.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Bottles/Bottle1:active")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=10]
-resource_name = "bottle_1"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Bottles/Bottle2:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Bottles/Bottle2:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, -97.9 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Bottles/Bottle2/Coll:rotation_degrees")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -26.0542, -360.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Bottles/Bottle2:active")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=11]
-resource_name = "bottle_2"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Bottles/Bottle3:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Bottles/Bottle3:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, -66.318 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Bottles/Bottle3/Coll:rotation_degrees")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -26.0542, -360.0 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Bottles/Bottle3:active")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
-[sub_resource type="Animation" id=6]
-resource_name = "hit"
+[sub_resource type="Animation" id=5]
+resource_name = "throw"
 length = 0.2
 tracks/0/type = "value"
-tracks/0/path = NodePath("Skeleton:material:shader_param/hit_opacity")
+tracks/0/path = NodePath("Sprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -193,31 +37,69 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ 0.6, 0.0 ]
+"values": [ Vector2( -319.078, -380.968 ), Vector2( -530.023, -626.51 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 5.17767, -104.871 ]
 }
 
-[sub_resource type="Animation" id=3]
-length = 4.0
-loop = true
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("Skeleton:material:shader_param/hit_opacity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 760, 480 ), Vector2( 303.86, 480 ), Vector2( 760, 480 ) ]
+"values": [ 0.3, 0.0, 0.3, 0.0, 0.3, 0.0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "hit_recover"
+} ]
 }
 
 [node name="Waitress" type="Node2D"]
 script = ExtResource( 1 )
+BOTTLE_SCN = ExtResource( 10 )
 
 [node name="Skeleton" type="GDDragonBones" parent="."]
-material = SubResource( 5 )
+material = SubResource( 1 )
+z_as_relative = false
 texture = ExtResource( 2 )
 resource = ExtResource( 3 )
 playback/curr_animation = "idle"
@@ -235,7 +117,7 @@ collision_mask = 4
 script = ExtResource( 4 )
 
 [node name="Coll" type="CollisionShape2D" parent="Skeleton/LeftBoob/LeftBoob"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -252,7 +134,7 @@ collision_mask = 4
 script = ExtResource( 4 )
 
 [node name="Coll" type="CollisionShape2D" parent="Skeleton/RightBoob/RightBoob"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -311,79 +193,22 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Bottles" type="Node2D" parent="."]
+[node name="Bottle" type="Node2D" parent="."]
 
-[node name="Bottle1" type="Area2D" parent="Bottles"]
+[node name="Sprite" type="Sprite" parent="Bottle"]
 visible = false
-position = Vector2( -587.755, 233.434 )
-rotation = -2.15898
-scale = Vector2( 1.66558, 1.66558 )
-collision_layer = 0
-collision_mask = 2
-script = ExtResource( 9 )
-
-[node name="Coll" type="CollisionShape2D" parent="Bottles/Bottle1"]
-position = Vector2( 142.03, -301.369 )
-rotation = -6.28319
-shape = SubResource( 8 )
-
-[node name="Sprite" type="Sprite" parent="Bottles/Bottle1/Coll"]
-position = Vector2( 7.44895, -17.1427 )
-rotation = 0.295693
-scale = Vector2( 0.901028, 0.901028 )
+position = Vector2( -530.023, -626.51 )
+rotation = -1.83034
+scale = Vector2( 1.61701, 1.63896 )
 texture = ExtResource( 8 )
 
-[node name="Bottle2" type="Area2D" parent="Bottles"]
-visible = false
-position = Vector2( -261.675, 236.993 )
-scale = Vector2( 1.66558, 1.66558 )
-collision_layer = 0
-collision_mask = 2
-script = ExtResource( 9 )
-active = true
-
-[node name="Coll" type="CollisionShape2D" parent="Bottles/Bottle2"]
-position = Vector2( -57.6717, -301.369 )
-rotation = -0.454731
-shape = SubResource( 8 )
-
-[node name="Sprite" type="Sprite" parent="Bottles/Bottle2/Coll"]
-position = Vector2( 7.44904, -17.1427 )
-rotation = 0.274081
-scale = Vector2( 0.901028, 0.901028 )
-texture = ExtResource( 8 )
-
-[node name="Bottle3" type="Area2D" parent="Bottles"]
-visible = false
-position = Vector2( 65.9045, 239.513 )
-rotation = -1.15747
-scale = Vector2( 1.66558, 1.66558 )
-collision_layer = 0
-collision_mask = 2
-script = ExtResource( 9 )
-
-[node name="Coll" type="CollisionShape2D" parent="Bottles/Bottle3"]
-position = Vector2( -250.801, -304.47 )
-rotation = -6.28319
-shape = SubResource( 8 )
-
-[node name="Sprite" type="Sprite" parent="Bottles/Bottle3/Coll"]
-position = Vector2( 7.44913, -17.1427 )
-rotation = 0.281825
-scale = Vector2( 0.901028, 0.901028 )
-texture = ExtResource( 8 )
+[node name="Anim" type="AnimationPlayer" parent="Bottle"]
+anims/throw = SubResource( 5 )
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/bottle_0 = SubResource( 9 )
-anims/bottle_1 = SubResource( 10 )
-anims/bottle_2 = SubResource( 11 )
 anims/hit = SubResource( 6 )
-anims/move = SubResource( 3 )
-
-[node name="ActionTimer" type="Timer" parent="."]
-wait_time = 4.0
 
 [connection signal="dragon_anim_event" from="Skeleton" to="." method="_on_Skeleton_dragon_anim_event"]
 [connection signal="hit" from="Skeleton/LeftBoob/LeftBoob" to="." method="_on_LeftBoob_hit"]

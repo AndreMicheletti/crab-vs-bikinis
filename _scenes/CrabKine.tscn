@@ -395,8 +395,7 @@ __meta__ = {
 [node name="Claws" type="Node2D" parent="Crab" groups=[
 "claw",
 ]]
-position = Vector2( -18.409, -12 )
-scale = Vector2( 1.12988, 1.12988 )
+position = Vector2( -23, -12 )
 
 [node name="Sprites" type="Node2D" parent="Crab/Claws"]
 

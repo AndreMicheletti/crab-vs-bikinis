@@ -1,10 +1,15 @@
 extends Node2D
 
+signal hit
+
 export(Vector2) var DEFAULT_POS = Vector2(0, 0)
+export(NodePath) var BOTTLE_PARENT = null
+export(Array, Vector2) var BOTTLE_POS = []
+export(Resource) var BOTTLE_SCN = null
+export(int) var MAX_HEALTH = 100
 
 onready var skeleton: SkeletonController = get_node("Skeleton")
 onready var anim = get_node("Anim")
-onready var action_timer = get_node("ActionTimer")
 onready var tween = get_node("Tween")
 
 onready var hitboxes = {
@@ -13,20 +18,18 @@ onready var hitboxes = {
 	"attack_armed_sweep": get_node("Skeleton/Hitbox/ArmedSweepHitbox")
 }
 
-var armed = false
 var throw_idx = 0
+var health = 0
+var recover = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	skeleton.play_loop("body", "idle")
 	skeleton.set("playback/play", true)
-	#action_timer.connect("timeout", self, "on_action_timer")
-	#action_timer.start()
+	health = MAX_HEALTH
 	sequence_reset()
 
-
 func sequence_reset():
-	armed = false
 	skeleton.set("playback/curr_animation", "idle")
 	tween.interpolate_property(self, "global_position", global_position, DEFAULT_POS, 
 		0.5, Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
@@ -35,12 +38,12 @@ func sequence_reset():
 	yield(get_tree().create_timer(1), "timeout")
 	randomize()
 	if randi() % 2 == 0:
-		sequence_unarmed(randi() % 6 + 2)
-		# sequence_throw()
+		sequence_melee(randi() % 6 + 2)
 	else:
 		sequence_throw()
 
-func sequence_unarmed(times: int):
+func sequence_melee(times: int):
+	randomize()
 	if (times <= 0):
 		sequence_reset()
 		return
@@ -51,34 +54,19 @@ func sequence_unarmed(times: int):
 		0.5, Tween.TRANS_CIRC, Tween.EASE_IN_OUT)
 	tween.start()
 	yield(tween, "tween_completed")
-	yield(attack_unarmed(), "completed")
-	sequence_unarmed(times - 1)
+	if randi() % 2 == 0:
+		yield(attack_armed(), "completed")
+	else:
+		yield(attack_armed_sweep(), "completed")
+	sequence_melee(times - 1)
 
-func sequence_throw(reset = false):
-	skeleton.set("playback/curr_animation", "idle_armed")
-	if reset: skeleton.play_loop("body", "idle")
-	else: skeleton.play_loop("body", "idle_armed")
-	if not armed:
-		yield(armed_in(), "completed")
+func sequence_throw():
 	yield(get_tree().create_timer(0.2), "timeout")
 	skeleton.set("playback/speed", 1.5)
 	yield(armed_throw(3), "completed")
 	skeleton.set("playback/speed", 1)
-	if reset: sequence_reset()
-	else:
-		yield(get_tree().create_timer(0.2), "timeout")
-		sequence_armed(1)
-
-func sequence_armed(rand: int):
-	randomize()
-	if (rand > 0):
-		if rand == 1: yield(attack_armed_sweep(), "completed")
-		if rand > 1: yield(attack_armed(), "completed")
-		yield(get_tree().create_timer(0.4), "timeout")
-		sequence_armed(randi() % 3)
-	else:
-		yield(get_tree().create_timer(0.4), "timeout")
-		sequence_throw(true)
+	yield(get_tree().create_timer(0.2), "timeout")
+	sequence_reset()
 
 func attack_armed():
 	skeleton.play_once("body", "attack_armed", 1)
@@ -88,23 +76,30 @@ func attack_armed_sweep():
 	skeleton.play_once("body", "attack_armed_sweep", 1)
 	yield(skeleton, "anim_once_ended")
 
-func armed_in():
-	skeleton.play_once("body", "armed_in", 1)
-	yield(skeleton, "anim_once_ended")
-	armed = true
-
 func armed_throw(times = 1):
 	throw_idx = 0
 	skeleton.play_once("body", "attack_throw", times)
 	yield(skeleton, "anim_once_ended")
 
-func attack_unarmed():
-	skeleton.play_once("body", "attack_unarmed", 1)
-	yield(skeleton, "anim_once_ended")
-
 func hit():
+	if recover: return
 	GameController.stop_frames(8)
+	health = max(health -1, 0)
 	$Anim.play("hit")
+	emit_signal("hit", health, MAX_HEALTH)
+	yield(get_tree().create_timer(0.1), "timeout")
+	recover = true
+
+func hit_recover():
+	recover = false
+
+func spawn_bottle(pos_idx: int):
+	$Bottle/Anim.play("throw")
+	var bottle_layer = get_node(BOTTLE_PARENT)
+	var bottle = BOTTLE_SCN.instance()
+	var pos = BOTTLE_POS[pos_idx]
+	bottle_layer.add_child(bottle)
+	bottle.global_position = pos
 
 func _on_LeftBoob_hit():
 	skeleton.play_separate("boobs_left", "hit_left", 1)
@@ -118,7 +113,7 @@ func _on_Skeleton_dragon_anim_event(event):
 	var animation = event["animation"]
 	var ev_name = event["event_name"]
 	if ev_name == "attackThrow":
-		anim.play("bottle_" + str(throw_idx))
+		spawn_bottle(throw_idx)
 		throw_idx += 1
 		return
 	var active = ev_name == "attackHitStart"

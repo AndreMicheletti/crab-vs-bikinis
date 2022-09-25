@@ -41,16 +41,17 @@ func _process(delta):
 	if (holding_target):
 		return
 	var mouse_pos = get_global_mouse_position()
-	flip = mouse_pos.x > global_position.x
 	process_defending()
 	if attacking or defending:
 		return 
 	# Look
-	var look_vec = mouse_pos - claw.global_position
-	var rot = atan2(look_vec.y, look_vec.x)
-	claw.global_rotation = PI - rot if flip else rot - PI
+	# var look_vec = mouse_pos - claw.global_position
+	# var rot = atan2(look_vec.y, look_vec.x)
+	# claw.global_rotation = PI - rot if flip else rot - PI
 	# Turn
-	crab.scale = Vector2(-1 if flip else 1, 1)
+	if move_vec.x != 0:
+		flip = move_vec.x > 0
+		crab.scale = Vector2(-1 if flip else 1, 1)
 	# Attack
 	if Input.is_action_just_pressed("attack"):
 		attack()

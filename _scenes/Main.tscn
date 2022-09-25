@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://_scenes/CrabKine.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/background/mountains.png" type="Texture" id=2]
@@ -24,6 +24,9 @@
 [ext_resource path="res://_scenes/ui/Health.tscn" type="PackedScene" id=22]
 [ext_resource path="res://assets/ui/flash.gdshader" type="Shader" id=23]
 [ext_resource path="res://assets/ui/boss_miniatures/waitress.png" type="Texture" id=24]
+[ext_resource path="res://assets/ui/pattern_80.png" type="Texture" id=25]
+[ext_resource path="res://_scripts/ui/BossUI.gd" type="Script" id=26]
+[ext_resource path="res://assets/ui/offset_distort.gdshader" type="Shader" id=27]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44.4799, 313.607 )
@@ -39,6 +42,16 @@ extents = Vector2( 10, 152.325 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 775.782, 69.7861 )
+
+[sub_resource type="CanvasItemMaterial" id=9]
+blend_mode = 1
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 27 )
+shader_param/direction = Vector2( 1, 1 )
+shader_param/speed = 0.332
+shader_param/force = 0.003
+shader_param/noise = ExtResource( 25 )
 
 [sub_resource type="Animation" id=6]
 resource_name = "loop"
@@ -166,9 +179,34 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Bottles" type="Node2D" parent="BossStage"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bottle1" type="Position2D" parent="BossStage/Bottles"]
+position = Vector2( 206.362, -280 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bottle2" type="Position2D" parent="BossStage/Bottles"]
+position = Vector2( 476.22, -276.208 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bottle3" type="Position2D" parent="BossStage/Bottles"]
+position = Vector2( 752.428, -276.208 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="Waitress" parent="BossStage" instance=ExtResource( 4 )]
 position = Vector2( 1165, 502 )
 DEFAULT_POS = Vector2( 1165, 502 )
+BOTTLE_PARENT = NodePath("../Bottles")
+BOTTLE_POS = [ Vector2( 206.362, -280 ), Vector2( 476.22, -280 ), Vector2( 752.428, -280 ) ]
 
 [node name="Stage" type="Node2D" parent="."]
 __meta__ = {
@@ -260,7 +298,7 @@ __meta__ = {
 }
 
 [node name="Crab" parent="PlayerStage" instance=ExtResource( 1 )]
-position = Vector2( 570.744, 557.377 )
+position = Vector2( 229.919, 546.063 )
 
 [node name="Foreground" type="Node2D" parent="."]
 __meta__ = {
@@ -282,6 +320,25 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Effects" type="Control" parent="."]
+material = SubResource( 9 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DrunkEffect" type="TextureRect" parent="Effects"]
+visible = false
+material = SubResource( 8 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 25 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="UI" type="Control" parent="UILayer"]
@@ -296,6 +353,7 @@ __meta__ = {
 [node name="BossUI" type="Control" parent="UILayer/UI"]
 anchor_right = 1.0
 margin_bottom = 134.0
+script = ExtResource( 26 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -309,7 +367,7 @@ anims/loop = SubResource( 6 )
 anchor_right = 1.0
 margin_left = 325.995
 margin_top = 38.6742
-margin_right = -355.005
+margin_right = -354.005
 margin_bottom = 77.6742
 __meta__ = {
 "_edit_lock_": true,
@@ -336,6 +394,7 @@ light_mask = 0
 material = SubResource( 7 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 3.8147e-06
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 8 )
@@ -401,6 +460,7 @@ margin_bottom = 156.397
 wait_time = 1.5
 autostart = true
 
+[connection signal="hit" from="BossStage/Waitress" to="UILayer/UI/BossUI" method="_on_Waitress_hit"]
 [connection signal="health_changed" from="PlayerStage/Crab" to="UILayer/UI/PlayerUI" method="_on_Crab_health_changed"]
 [connection signal="gui_input" from="UILayer/UI" to="PlayerStage/Crab" method="_on_UI_gui_input"]
 [connection signal="tween_completed" from="UILayer/UI/PlayerUI/Tween" to="UILayer/UI/PlayerUI" method="_on_Tween_tween_completed"]

@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://_scripts/Hitbox.gd" type="Script" id=1]
+[ext_resource path="res://assets/waitress/bottle.png" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 21.5429
+height = 73.3282
+
+[sub_resource type="Animation" id=2]
+resource_name = "loop"
+length = 2.0
+loop = true
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HitArea:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -360.0, 360.0 ]
+}
+
+[node name="Bottle" type="RigidBody2D"]
+rotation = -6.28319
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 9.0
+can_sleep = false
+
+[node name="HitArea" type="Area2D" parent="."]
+rotation = -6.28319
+scale = Vector2( 1.66558, 1.66558 )
+monitorable = false
+collision_layer = 0
+collision_mask = 2
+script = ExtResource( 1 )
+active = true
+
+[node name="Sprite" type="Sprite" parent="HitArea"]
+position = Vector2( 7.44888, -17.1427 )
+rotation = 0.29569
+scale = Vector2( 0.901025, 0.901025 )
+texture = ExtResource( 2 )
+
+[node name="Coll" type="CollisionShape2D" parent="HitArea"]
+rotation = -4.46638e-06
+shape = SubResource( 1 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "loop"
+anims/loop = SubResource( 2 )
